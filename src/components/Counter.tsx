@@ -7,7 +7,7 @@ import ShareWalletIcon from "./ShareWalletIcon";
 export default function Counter() {
   const [counter, setCounter] = useState(0);
   return (
-    <div className="flex flex-col gap-4 w-max border rounded-md m-4">
+    <div className="flex flex-col gap-4 w-max border rounded-md">
       <div className="h-10 flex items-center gap-4 px-4 mt-2">
         <div className="flex items-center gap-4">
           <ShareWalletIcon />
