@@ -1,14 +1,71 @@
+"use client";
+
+import useWidth from "@/hooks/useWidth";
 import { Button } from "./ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Dashboard() {
   return (
     <div className="container mx-auto pt-8">
       <DashboardHeader />
-      <div className="w-full flex flex-col sm:flex-row gap-4 py-4">
-        <UserBalanceCard title="Total Balance">100</UserBalanceCard>
-        <UserBalanceCard title="Total Balance">100</UserBalanceCard>
-        <UserBalanceCard title="Total Balance">100</UserBalanceCard>
+      <UserBalance />
+      <Transactions />
+    </div>
+  );
+}
+
+function Transactions() {
+  const windowWidth = useWidth();
+  if (windowWidth && windowWidth > 640) {
+    return (
+      <div className="w-full rounded-lg border mb-4">
+        <div className="w-full">
+          <div className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 w-full rounded-b-none">
+            <div className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium w-full">
+              asdf
+            </div>
+            <div className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium w-full">
+              Password
+            </div>
+          </div>
+          <div className="flex divide-x-2">
+            <div className="w-full mt-2">
+              Make changes to your account here.
+            </div>
+            <div className="w-full m-2">Change your password here.</div>
+          </div>
+        </div>
       </div>
+    );
+  }
+  return (
+    <div className="w-full rounded-lg border mb-4">
+      <Tabs defaultValue="account" className="w-full">
+        <TabsList className="w-full rounded-b-none">
+          <TabsTrigger value="account" className="w-full">
+            Account
+          </TabsTrigger>
+          <TabsTrigger value="password" className="w-full">
+            Password
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="account">
+          Make changes to your account here.
+        </TabsContent>
+        <TabsContent value="password">Change your password here.</TabsContent>
+      </Tabs>
+    </div>
+  );
+}
+
+function ResponsiveTabTable() {}
+
+function UserBalance() {
+  return (
+    <div className="w-full flex flex-col sm:flex-row gap-4 py-4">
+      <UserBalanceCard title="Total Balance">100</UserBalanceCard>
+      <UserBalanceCard title="Total Balance">100</UserBalanceCard>
+      <UserBalanceCard title="Total Balance">100</UserBalanceCard>
     </div>
   );
 }

@@ -20,7 +20,7 @@ export function ModeToggle() {
       setThemeName(theme ? theme[0].toUpperCase() + theme.slice(1) : "System"),
     [theme]
   );
-  console.log(theme);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
