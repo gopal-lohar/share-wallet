@@ -28,9 +28,15 @@ function Transactions() {
               You are Owed
             </div>
           </div>
-          <div className="flex divide-x-2">
-            <div className="w-full mt-2">You Owe Here</div>
-            <div className="w-full m-2">You are Owed here</div>
+          {/* 100% - OweOwed title height - extra space at bottom to make separator look good */}
+          <div className="flex divide-x h-[calc(100%-4rem-0.5rem)]">
+            {/* 100% - margin compansation */}
+            <div className="w-full mt-2 h-[100%-0.5rem]">
+              <TransactionsList type="owe" />
+            </div>
+            <div className="w-full mt-2 h-[100%-0.5rem]">
+              <TransactionsList type="owed" />
+            </div>
           </div>
         </div>
       </div>
@@ -47,12 +53,21 @@ function Transactions() {
             You are Owed
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="owe">
-          Make changes to your account here.
+        {/* 100% - tab trigger height - margin top */}
+        <TabsContent className="h-[calc(100%-2.5rem-0.5rem)]" value="owe">
+          <TransactionsList type="owe" />
         </TabsContent>
-        <TabsContent value="owed">Change your password here.</TabsContent>
+        <TabsContent className="h-[calc(100%-2.5rem-0.5rem)]" value="owed">
+          <TransactionsList type="owed" />
+        </TabsContent>
       </Tabs>
     </div>
+  );
+}
+
+function TransactionsList({ type }: { type: "owe" | "owed" }) {
+  return (
+    <div className="p-2 h-full">{type === "owe" ? "YOUOWE" : "YOUAREOWED"}</div>
   );
 }
 
@@ -60,8 +75,8 @@ function UserBalance() {
   return (
     <div className="w-full flex flex-col sm:flex-row gap-2 sm:gap-4">
       <UserBalanceCard title="Total Balance">100</UserBalanceCard>
-      <UserBalanceCard title="Total Balance">100</UserBalanceCard>
-      <UserBalanceCard title="Total Balance">100</UserBalanceCard>
+      <UserBalanceCard title="You Owe">121</UserBalanceCard>
+      <UserBalanceCard title="You are Owed">1200</UserBalanceCard>
     </div>
   );
 }
