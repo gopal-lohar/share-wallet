@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
   return (
-    <nav className="w-full h-20">
-      <div className="container flex items-center mx-auto h-full gap-2">
+    <nav className="w-full h-16">
+      <div className="w-full max-w-[1500px] mx-auto px-2 flex items-center h-full gap-2">
         <div className="h-full flex items-center gap-4">
           <ShareWalletIcon className="size-10" />
           <span className="hidden sm:inline-block font-extrabold text-muted-foreground text-2xl translate-y-0.5">
