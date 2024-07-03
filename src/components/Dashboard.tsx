@@ -6,7 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Dashboard() {
   return (
-    <div className="w-full max-w-[1500px] mx-auto p-2 sm:pt-8 flex flex-col gap-4 h-[calc(100vh-5rem)]">
+    // height = 100vh - nav height
+    <div className="w-full max-w-[1500px] mx-auto p-2 sm:py-4 flex flex-col gap-4 h-[calc(100vh-4rem)] overflow-auto">
       <DashboardHeader />
       <UserBalance />
       <Transactions />
