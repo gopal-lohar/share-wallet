@@ -1,11 +1,8 @@
 export interface UserDetails {
-  _id: string;
   googleId: string;
   name: string;
   email: string;
   pfpColor: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface Transaction {
