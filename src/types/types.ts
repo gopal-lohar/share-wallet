@@ -5,6 +5,17 @@ export interface UserDetails {
   pfpColor: string;
 }
 
+export interface DashboardData {
+  balance: Balance;
+  transactions: Transaction[];
+}
+
+export interface Balance {
+  total: number;
+  owe: number;
+  owed: number;
+}
+
 export interface Transaction {
   _id: string;
   friend: Friend;
@@ -16,7 +27,6 @@ export interface Transaction {
 }
 
 interface Friend {
-  _id: string;
   googleId: string;
   name: string;
   pfpColor: string;

@@ -3,13 +3,31 @@
 import useWidth from "@/hooks/useWidth";
 import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Balance, DashboardData } from "@/types/types";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "@/context/UserContext";
 
-export default function Dashboard() {
+export default function Dashboard({ data }: { data: DashboardData | null }) {
+  const user = useContext(UserContext);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
+    user ? data : null
+  );
+  useEffect(() => {
+    if (!user) {
+      setTimeout(() => {
+        setDashboardData({
+          balance: { total: 12, owe: 34, owed: 56 },
+          transactions: [],
+        });
+      }, 2000);
+    }
+  }, []);
+
   return (
     // height = 100vh - nav height
     <div className="w-full max-w-[1500px] mx-auto p-2 sm:py-4 flex flex-col gap-4 h-[calc(100vh-4rem)] overflow-auto">
       <DashboardHeader />
-      <UserBalance />
+      <UserBalance balance={dashboardData?.balance || null} />
       <Transactions />
     </div>
   );
@@ -72,12 +90,24 @@ function TransactionsList({ type }: { type: "owe" | "owed" }) {
   );
 }
 
-function UserBalance() {
+function UserBalance({ balance }: { balance: Balance | null }) {
   return (
     <div className="w-full flex flex-col sm:flex-row gap-2 sm:gap-4">
-      <UserBalanceCard title="Total Balance">100</UserBalanceCard>
-      <UserBalanceCard title="You Owe">121</UserBalanceCard>
-      <UserBalanceCard title="You are Owed">1200</UserBalanceCard>
+      <UserBalanceCard title="Total Balance">
+        {balance?.total || (
+          <div className="h-6 w-20 animate-pulse bg-secondary rounded-full my-1"></div>
+        )}
+      </UserBalanceCard>
+      <UserBalanceCard title="You Owe">
+        {balance?.owe || (
+          <div className="h-6 w-20 animate-pulse bg-secondary rounded-full my-1"></div>
+        )}
+      </UserBalanceCard>
+      <UserBalanceCard title="You are Owed">
+        {balance?.owed || (
+          <div className="h-6 w-20 animate-pulse bg-secondary rounded-full my-1"></div>
+        )}
+      </UserBalanceCard>
     </div>
   );
 }
