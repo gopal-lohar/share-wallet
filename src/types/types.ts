@@ -5,11 +5,6 @@ export interface UserDetails {
   pfpColor: string;
 }
 
-export interface DashboardData {
-  balance: Balance;
-  transactions: Transaction[];
-}
-
 export interface Balance {
   total: number;
   owe: number;

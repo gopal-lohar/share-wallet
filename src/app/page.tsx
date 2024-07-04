@@ -3,60 +3,39 @@
 import Dashboard from "@/components/Dashboard";
 import Navbar from "@/components/Navbar";
 import UserContextProvider from "@/context/UserContextProvider";
-import getPfpColor from "@/lib/utils";
-import { DashboardData, UserDetails } from "@/types/types";
+import { tempTransactions } from "@/lib/temp/transactions";
+import { getPfpColor, wait } from "@/lib/utils";
+import { Transaction, UserDetails } from "@/types/types";
 
-function getUserData(): Promise<UserDetails | null> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        googleId: "string",
-        name: "Eoln Muks",
-        email: "em@em.em",
-        pfpColor: getPfpColor("em@em.em"),
-      });
-    }, 1000);
-    // resolve(null);
-  });
+async function getUserData(): Promise<UserDetails | null> {
+  await wait(2000);
+  return {
+    googleId: "string",
+    name: "Eoln Muks",
+    email: "em@em.em",
+    pfpColor: getPfpColor("em@em.em"),
+  };
+  // resolve(null);
 }
 
-function getDashboardData(): Promise<DashboardData | null> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        balance: {
-          total: 1000,
-          owe: 500,
-          owed: 500,
-        },
-        transactions: [
-          {
-            _id: "string",
-            friend: {
-              googleId: "string",
-              name: "Eoln Muks",
-              pfpColor: getPfpColor("em@em.em"),
-            },
-            amount: 100,
-            owesMoney: false,
-            description: "Hello hii",
-            time: "string",
-            createdBy: "string",
-          },
-        ],
-      });
-    }, 1000);
+async function getTransactions(): Promise<Transaction[] | null> {
+  await wait(2000);
+  return tempTransactions.map((transaction) => {
+    return {
+      ...transaction,
+      friend: { ...transaction.friend, name: transaction.friend.name },
+    };
   });
 }
 
 export default async function Home() {
   const user = await getUserData();
-  const dashBoardData = await getDashboardData();
+  const transactions = await getTransactions();
   return (
     <UserContextProvider user={user}>
       <div>
         <Navbar />
-        <Dashboard data={dashBoardData} />
+        <Dashboard transactions={transactions} />
       </div>
     </UserContextProvider>
   );

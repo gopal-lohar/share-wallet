@@ -1,6 +1,7 @@
 "use client";
 
 import { useContext } from "react";
+
 import ShareWalletIcon from "@/components/ShareWalletIcon";
 import { ModeToggle } from "@/components/ModeToggle";
 import { Button } from "@/components/ui/button";

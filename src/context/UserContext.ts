@@ -1,7 +1,8 @@
 "use client";
 
-import { UserDetails } from "@/types/types";
 import { createContext } from "react";
+
+import { UserDetails } from "@/types/types";
 
 const UserContext = createContext<UserDetails | null>(null);
 

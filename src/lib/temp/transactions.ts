@@ -1,5 +1,5 @@
 import { Transaction } from "@/types/types";
-import getPfpColor from "../utils";
+import { getPfpColor } from "@/lib/utils";
 
 const friends = [
   { googleId: "1", name: "Alice", pfpColor: getPfpColor("alice@gmail.com") },

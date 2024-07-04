@@ -1,7 +1,8 @@
 "use client";
 
-import { Transaction } from "@/types/types";
 import { createContext } from "react";
+
+import { Transaction } from "@/types/types";
 
 const TransactionsContext = createContext<{ transactions: Transaction[] }>({
   transactions: [],

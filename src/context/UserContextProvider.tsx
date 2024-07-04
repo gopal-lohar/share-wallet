@@ -1,7 +1,7 @@
 "use client";
 
 import { UserDetails } from "@/types/types";
-import UserContext from "./UserContext";
+import UserContext from "@/context/UserContext";
 
 export default function UserContextProvider({
   children,

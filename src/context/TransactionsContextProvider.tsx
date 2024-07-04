@@ -20,7 +20,7 @@ export default function TransactionsContextProvider({
     if (!user) {
       setTransactions(tempTransactions);
     }
-  }, []);
+  }, [user]);
   return (
     <TransactionsContext.Provider value={{ transactions }}>
       {children}

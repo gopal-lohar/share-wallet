@@ -1,33 +1,20 @@
 "use client";
 
 import useWidth from "@/hooks/useWidth";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Balance, DashboardData } from "@/types/types";
-import { useContext, useEffect, useState } from "react";
-import UserContext from "@/context/UserContext";
+import { Transaction } from "@/types/types";
 
-export default function Dashboard({ data }: { data: DashboardData | null }) {
-  const user = useContext(UserContext);
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
-    user ? data : null
-  );
-  useEffect(() => {
-    if (!user) {
-      setTimeout(() => {
-        setDashboardData({
-          balance: { total: 12, owe: 34, owed: 56 },
-          transactions: [],
-        });
-      }, 2000);
-    }
-  }, []);
-
+export default function Dashboard({
+  transactions,
+}: {
+  transactions: Transaction[] | null;
+}) {
   return (
     // height = 100vh - nav height
     <div className="w-full max-w-[1500px] mx-auto p-2 sm:py-4 flex flex-col gap-4 h-[calc(100vh-4rem)] overflow-auto">
       <DashboardHeader />
-      <UserBalance balance={dashboardData?.balance || null} />
+      <UserBalance />
       <Transactions />
     </div>
   );
@@ -90,21 +77,21 @@ function TransactionsList({ type }: { type: "owe" | "owed" }) {
   );
 }
 
-function UserBalance({ balance }: { balance: Balance | null }) {
+function UserBalance() {
   return (
     <div className="w-full flex flex-col sm:flex-row gap-2 sm:gap-4">
       <UserBalanceCard title="Total Balance">
-        {balance?.total || (
+        {234 || (
           <div className="h-6 w-20 animate-pulse bg-secondary rounded-full my-1"></div>
         )}
       </UserBalanceCard>
       <UserBalanceCard title="You Owe">
-        {balance?.owe || (
+        {24 || (
           <div className="h-6 w-20 animate-pulse bg-secondary rounded-full my-1"></div>
         )}
       </UserBalanceCard>
       <UserBalanceCard title="You are Owed">
-        {balance?.owed || (
+        {324 || (
           <div className="h-6 w-20 animate-pulse bg-secondary rounded-full my-1"></div>
         )}
       </UserBalanceCard>
