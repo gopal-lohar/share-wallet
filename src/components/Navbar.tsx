@@ -7,6 +7,7 @@ import { ModeToggle } from "@/components/ModeToggle";
 import { Button } from "@/components/ui/button";
 import UserContext from "@/context/UserContext";
 import { UserDetails } from "@/types/types";
+import ProfilePic from "@/components/ProfilePic";
 
 export default function Navbar() {
   const user = useContext(UserContext);
@@ -40,7 +41,7 @@ function LoginButton() {
   return (
     <Button
       variant="outline"
-      className="px-2 sm:px-4 text-primary hover:text-primary rounded-full gap-2"
+      className="px-2 sm:pr-3 text-primary hover:text-primary rounded-full gap-2"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -53,16 +54,5 @@ function LoginButton() {
       </svg>
       <span className="hidden sm:inline-block text">Login</span>
     </Button>
-  );
-}
-
-function ProfilePic({ letter, color }: { letter: string; color: string }) {
-  return (
-    <div
-      className={`size-10 rounded-full flex items-center justify-center text-white`}
-      style={{ backgroundColor: color }}
-    >
-      <span className="text-xl">{letter}</span>
-    </div>
   );
 }
