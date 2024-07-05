@@ -8,7 +8,7 @@ import { getPfpColor, wait } from "@/lib/utils";
 import { Transaction, UserDetails } from "@/types/types";
 
 async function getUserData(): Promise<UserDetails | null> {
-  await wait(2000);
+  await wait(500);
   return {
     googleId: "string",
     name: "Eoln Muks",
@@ -19,11 +19,14 @@ async function getUserData(): Promise<UserDetails | null> {
 }
 
 async function getTransactions(): Promise<Transaction[] | null> {
-  await wait(2000);
+  await wait(500);
   return tempTransactions.map((transaction) => {
     return {
       ...transaction,
-      friend: { ...transaction.friend, name: transaction.friend.name },
+      friend: {
+        ...transaction.friend,
+        name: "server " + transaction.friend.name,
+      },
     };
   });
 }

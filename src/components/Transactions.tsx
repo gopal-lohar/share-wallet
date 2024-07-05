@@ -1,5 +1,8 @@
+import { useContext } from "react";
+
 import useWidth from "@/hooks/useWidth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import TransactionsContext from "@/context/TransactionsContext";
 
 export default function Transactions() {
   const windowWidth = useWidth();
@@ -53,7 +56,18 @@ export default function Transactions() {
 }
 
 function TransactionsList({ type }: { type: "owe" | "owed" }) {
+  const { transactions } = useContext(TransactionsContext);
+  const owesMoney = type === "owe";
   return (
-    <div className="p-2 h-full">{type === "owe" ? "YOUOWE" : "YOUAREOWED"}</div>
+    <div className="p-2 h-full">
+      {transactions.map((transaction) => {
+        if (owesMoney !== transaction.owesMoney) return "";
+        return (
+          <div className="p-2 border-b" key={transaction._id}>
+            {transaction.friend.name}
+          </div>
+        );
+      })}
+    </div>
   );
 }

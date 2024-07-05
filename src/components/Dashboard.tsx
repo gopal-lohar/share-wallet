@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Transaction } from "@/types/types";
 import Transactions from "@/components/Transactions";
 import { UserBalance } from "@/components/Balance";
+import TransactionsContextProvider from "@/context/TransactionsContextProvider";
 
 export default function Dashboard({
   transactions,
@@ -13,9 +14,11 @@ export default function Dashboard({
   return (
     // height = 100vh - nav height
     <div className="w-full max-w-[1500px] mx-auto p-2 sm:py-4 flex flex-col gap-4 h-[calc(100vh-4rem)] overflow-auto">
-      <DashboardHeader />
-      <UserBalance />
-      <Transactions />
+      <TransactionsContextProvider data={transactions || []}>
+        <DashboardHeader />
+        <UserBalance />
+        <Transactions />
+      </TransactionsContextProvider>
     </div>
   );
 }

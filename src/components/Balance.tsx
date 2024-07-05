@@ -1,18 +1,38 @@
+import { useContext } from "react";
+
+import TransactionsContext from "@/context/TransactionsContext";
+
 export function UserBalance() {
+  const { transactions } = useContext(TransactionsContext);
+  const { owe, owed } = transactions.reduce(
+    (acc, transactions) => {
+      if (transactions.owesMoney) {
+        acc.owe += transactions.amount;
+      } else {
+        acc.owed += transactions.amount;
+      }
+      return acc;
+    },
+    {
+      owe: 0,
+      owed: 0,
+    }
+  );
+
   return (
     <div className="w-full flex flex-col sm:flex-row gap-2 sm:gap-4">
       <UserBalanceCard title="Total Balance">
-        {234 || (
+        {owed - owe || (
           <div className="h-6 w-20 animate-pulse bg-secondary rounded-full my-1"></div>
         )}
       </UserBalanceCard>
       <UserBalanceCard title="You Owe">
-        {24 || (
+        {owe || (
           <div className="h-6 w-20 animate-pulse bg-secondary rounded-full my-1"></div>
         )}
       </UserBalanceCard>
       <UserBalanceCard title="You are Owed">
-        {324 || (
+        {owed || (
           <div className="h-6 w-20 animate-pulse bg-secondary rounded-full my-1"></div>
         )}
       </UserBalanceCard>

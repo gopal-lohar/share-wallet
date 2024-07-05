@@ -5,17 +5,11 @@ export interface UserDetails {
   pfpColor: string;
 }
 
-export interface Balance {
-  total: number;
-  owe: number;
-  owed: number;
-}
-
 export interface Transaction {
   _id: string;
   friend: Friend;
   amount: number;
-  owesMoney: boolean;
+  owesMoney: boolean; // if current user owes money to friend
   description: string;
   time: string;
   createdBy: string;
