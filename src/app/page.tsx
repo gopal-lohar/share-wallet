@@ -15,7 +15,7 @@ async function getUserData(): Promise<UserDetails | null> {
     email: "em@em.em",
     pfpColor: getPfpColor("em@em.em"),
   };
-  // resolve(null);
+  // return null;
 }
 
 async function getTransactions(): Promise<Transaction[] | null> {

@@ -121,3 +121,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+* {
+  scrollbar-color: hsl(var(--muted-foreground)) hsl(var(--background));
+  scrollbar-width: thin;
+}

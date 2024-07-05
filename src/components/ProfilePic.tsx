@@ -10,7 +10,7 @@ export default function ProfilePic({
       className={`size-10 rounded-full flex items-center justify-center text-white`}
       style={{ backgroundColor: color }}
     >
-      <span className="text-xl">{letter}</span>
+      <span className="text-xl">{letter.toUpperCase()}</span>
     </div>
   );
 }

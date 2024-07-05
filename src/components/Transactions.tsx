@@ -3,6 +3,8 @@ import { useContext } from "react";
 import useWidth from "@/hooks/useWidth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TransactionsContext from "@/context/TransactionsContext";
+import ProfilePic from "./ProfilePic";
+import { Transaction } from "@/types/types";
 
 export default function Transactions() {
   const windowWidth = useWidth();
@@ -59,15 +61,31 @@ function TransactionsList({ type }: { type: "owe" | "owed" }) {
   const { transactions } = useContext(TransactionsContext);
   const owesMoney = type === "owe";
   return (
-    <div className="p-2 h-full">
+    <div className="p-2 h-full overflow-auto divide-y">
       {transactions.map((transaction) => {
         if (owesMoney !== transaction.owesMoney) return "";
         return (
-          <div className="p-2 border-b" key={transaction._id}>
-            {transaction.friend.name}
-          </div>
+          <TransactionListItem
+            transaction={transaction}
+            key={transaction._id}
+          />
         );
       })}
+    </div>
+  );
+}
+
+function TransactionListItem({ transaction }: { transaction: Transaction }) {
+  return (
+    <div className="py-3 px-2 flex gap-4 items-center" key={transaction._id}>
+      <ProfilePic
+        letter={transaction.friend.name[0]}
+        color={transaction.friend.pfpColor}
+      />
+      <span>{transaction.friend.name}</span>
+      <span className="text-xl ml-auto text-muted-foreground font-semibold">
+        &#8377;{transaction.amount}
+      </span>
     </div>
   );
 }
