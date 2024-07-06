@@ -23,7 +23,7 @@ export default function Transactions() {
     return (
       <div className="w-full rounded-lg border h-full min-h-[70vh]">
         <div className="w-full h-full">
-          <div className="inline-flex h-16 items-center justify-center rounded-md border-b p-1 w-full rounded-b-none">
+          <div className="inline-flex h-10 items-center justify-center rounded-md border-b p-1 w-full rounded-b-none">
             <div className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium w-full">
               You Owe
             </div>
@@ -32,7 +32,7 @@ export default function Transactions() {
             </div>
           </div>
           {/* 100% - OweOwed title height - extra space at bottom to make separator look good */}
-          <div className="flex divide-x h-[calc(100%-4rem-0.5rem)]">
+          <div className="flex divide-x h-[calc(100%-2.5rem-0.5rem)]">
             {/* 100% - margin compansation */}
             <div className="w-full mt-2 h-[100%-0.5rem]">
               <TransactionsList type="owe" />
@@ -72,7 +72,7 @@ function TransactionsList({ type }: { type: "owe" | "owed" }) {
   const { transactions } = useContext(TransactionsContext);
   const owesMoney = type === "owe";
   return (
-    <div className="p-2 h-full overflow-auto divide-y">
+    <div className="px-2 h-full overflow-auto divide-y">
       {transactions.map((transaction) => {
         if (owesMoney !== transaction.owesMoney) return "";
         return (
@@ -94,6 +94,7 @@ function TransactionListItem({
   transaction: Transaction;
   owesMoney: boolean;
 }) {
+  const { deleteTransaction } = useContext(TransactionsContext);
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -140,7 +141,14 @@ function TransactionListItem({
           </div>
         </DialogHeader>
         <DialogFooter className="gap-4 flex-col sm:justify-between sm:gap-2">
-          <Button variant="destructive">Delete</Button>
+          <Button
+            variant="destructive"
+            onClick={(e) => {
+              deleteTransaction(transaction._id);
+            }}
+          >
+            Delete
+          </Button>
           <DialogClose>
             <Button variant="outline">Close</Button>
           </DialogClose>

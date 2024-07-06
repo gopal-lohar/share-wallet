@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 import { Transaction } from "@/types/types";
 import TransactionsContext from "@/context/TransactionsContext";
@@ -16,13 +16,21 @@ export default function TransactionsContextProvider({
 }) {
   const user = useContext(UserContext);
   const [transactions, setTransactions] = useState<Transaction[]>(data);
+  const deleteTransaction = useCallback(
+    (id: string) => {
+      setTransactions((prevTransactions) => {
+        return prevTransactions.filter((transaction) => transaction._id !== id);
+      });
+    },
+    [setTransactions]
+  );
   useEffect(() => {
     if (!user) {
       setTransactions(tempTransactions);
     }
   }, [user]);
   return (
-    <TransactionsContext.Provider value={{ transactions }}>
+    <TransactionsContext.Provider value={{ transactions, deleteTransaction }}>
       {children}
     </TransactionsContext.Provider>
   );
