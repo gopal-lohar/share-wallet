@@ -5,6 +5,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TransactionsContext from "@/context/TransactionsContext";
 import ProfilePic from "./ProfilePic";
 import { Transaction } from "@/types/types";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "./ui/button";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 export default function Transactions() {
   const windowWidth = useWidth();
@@ -67,6 +78,7 @@ function TransactionsList({ type }: { type: "owe" | "owed" }) {
         return (
           <TransactionListItem
             transaction={transaction}
+            owesMoney={owesMoney}
             key={transaction._id}
           />
         );
@@ -75,17 +87,65 @@ function TransactionsList({ type }: { type: "owe" | "owed" }) {
   );
 }
 
-function TransactionListItem({ transaction }: { transaction: Transaction }) {
+function TransactionListItem({
+  transaction,
+  owesMoney,
+}: {
+  transaction: Transaction;
+  owesMoney: boolean;
+}) {
   return (
-    <div className="py-3 px-2 flex gap-4 items-center" key={transaction._id}>
-      <ProfilePic
-        letter={transaction.friend.name[0]}
-        color={transaction.friend.pfpColor}
-      />
-      <span>{transaction.friend.name}</span>
-      <span className="text-xl ml-auto text-muted-foreground font-semibold">
-        &#8377;{transaction.amount}
-      </span>
-    </div>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button
+          variant="ghost"
+          className="w-full rounded-none gap-4 items-center p-2 py-3 h-auto"
+        >
+          <ProfilePic
+            letter={transaction.friend.name[0]}
+            color={transaction.friend.pfpColor}
+          />
+          <span>{transaction.friend.name}</span>
+          <span className="text-xl ml-auto text-muted-foreground font-semibold">
+            &#8377;{transaction.amount}
+          </span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Transaction Details</DialogTitle>
+          <DialogDescription>
+            {owesMoney
+              ? `You Owe ${transaction.friend.name}`
+              : `${transaction.friend.name} Owes You`}{" "}
+            &#8377;{transaction.amount}
+          </DialogDescription>
+          <div className="grid gap-4 py-4">
+            <div>
+              <div className="text-muted-foreground text-sm">Amount</div>
+              <div>{transaction.amount}</div>
+            </div>
+            <div>
+              <div className="text-muted-foreground text-sm">Description</div>
+              <div>{transaction.description}</div>
+            </div>
+            <div>
+              <div className="text-muted-foreground text-sm">Created By</div>
+              <div>{transaction.createdBy}</div>
+            </div>
+            <div>
+              <div className="text-muted-foreground text-sm">Created At</div>
+              <div>{new Date(transaction.time).toLocaleString()}</div>
+            </div>
+          </div>
+        </DialogHeader>
+        <DialogFooter className="gap-4 flex-col sm:justify-between sm:gap-2">
+          <Button variant="destructive">Delete</Button>
+          <DialogClose>
+            <Button variant="outline">Close</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
