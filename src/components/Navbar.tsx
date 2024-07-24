@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 import UserContext from "@/context/UserContext";
 import { UserDetails } from "@/types/types";
 import ProfilePic from "@/components/ProfilePic";
-
-export default function Navbar() {
+import AuthButton from "@/components/AuthButton";
+export default async function Navbar() {
   const user = useContext(UserContext);
+
   return (
     <nav className="w-full h-16 border-b sm:border-b-0">
       <div className="w-full max-w-[1500px] mx-auto px-2 flex items-center h-full gap-2">
@@ -21,6 +22,7 @@ export default function Navbar() {
           </span>
         </div>
         <div className="ml-auto flex items-center gap-2">
+          <AuthButton></AuthButton>
           <ModeToggle />
           {user ? <ProfilePicButton user={user} /> : <LoginButton />}
         </div>
