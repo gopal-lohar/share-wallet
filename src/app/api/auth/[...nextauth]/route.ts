@@ -1,3 +1,6 @@
+import { createUser } from "@/actions/Users/createUser";
+import { connectDB } from "@/lib/mongodb";
+import mongoose from "mongoose";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -8,6 +11,12 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_SECRET || "",
     }),
   ],
+  callbacks: {
+    async signIn(data: any) {
+      await createUser(data);
+      return true;
+    },
+  },
 };
 
 export const handler = NextAuth(authOptions);
