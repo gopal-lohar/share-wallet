@@ -6,17 +6,7 @@ import UserContextProvider from "@/context/UserContextProvider";
 import { tempTransactions } from "@/lib/temp/transactions";
 import { getPfpColor, wait } from "@/lib/utils";
 import { Transaction, UserDetails } from "@/types/types";
-
-async function getUserData(): Promise<UserDetails | null> {
-  await wait(500);
-  return {
-    googleId: "string",
-    name: "Eoln Muks",
-    email: "em@em.em",
-    pfpColor: getPfpColor("em@em.em"),
-  };
-  // return null;
-}
+import { getUserData } from "./_actions/users";
 
 async function getTransactions(): Promise<Transaction[] | null> {
   await wait(500);

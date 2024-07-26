@@ -2,17 +2,17 @@ export interface UserDetails {
   googleId: string;
   name: string;
   email: string;
-  pfpColor: string;
+  pfpColour: string;
 }
 
 export interface Transaction {
   _id: string;
+  createdBy: string;
   friend: Friend;
   amount: number;
   owesMoney: boolean; // if current user owes money to friend
   description: string;
-  time: string;
-  createdBy: string;
+  createdAt: string; // remove this and use createdAt and EditedAt instead
 }
 
 interface Friend {

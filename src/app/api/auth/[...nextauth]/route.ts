@@ -1,8 +1,6 @@
-import { createUser } from "@/actions/Users/createUser";
-import { connectDB } from "@/lib/mongodb";
-import mongoose from "mongoose";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { createUser } from "../../../_actions/users";
 
 export const authOptions = {
   providers: [

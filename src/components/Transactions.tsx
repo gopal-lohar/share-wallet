@@ -136,7 +136,7 @@ function TransactionListItem({
             </div>
             <div>
               <div className="text-muted-foreground text-sm">Created At</div>
-              <div>{new Date(transaction.time).toLocaleString()}</div>
+              <div>{new Date(transaction.createdAt).toLocaleString()}</div>
             </div>
           </div>
         </DialogHeader>

@@ -22,7 +22,7 @@ export const tempTransactions: Transaction[] = [
     amount: 100,
     owesMoney: true,
     description: "Dinner",
-    time: "2024-07-01T18:00:00Z",
+    createdAt: "2024-07-01T18:00:00Z",
     createdBy: "you",
   },
   {
@@ -31,7 +31,7 @@ export const tempTransactions: Transaction[] = [
     amount: 200,
     owesMoney: false,
     description: "Lunch",
-    time: "2024-07-02T12:30:00Z",
+    createdAt: "2024-07-02T12:30:00Z",
     createdBy: "you",
   },
   {
@@ -40,7 +40,7 @@ export const tempTransactions: Transaction[] = [
     amount: 150,
     owesMoney: true,
     description: "Movies",
-    time: "2024-07-03T20:00:00Z",
+    createdAt: "2024-07-03T20:00:00Z",
     createdBy: "you",
   },
   {
@@ -49,7 +49,7 @@ export const tempTransactions: Transaction[] = [
     amount: 80,
     owesMoney: true,
     description: "Coffee",
-    time: "2024-07-04T10:00:00Z",
+    createdAt: "2024-07-04T10:00:00Z",
     createdBy: "you",
   },
   {
@@ -58,7 +58,7 @@ export const tempTransactions: Transaction[] = [
     amount: 120,
     owesMoney: false,
     description: "Snacks",
-    time: "2024-07-05T15:00:00Z",
+    createdAt: "2024-07-05T15:00:00Z",
     createdBy: "you",
   },
   {
@@ -67,7 +67,7 @@ export const tempTransactions: Transaction[] = [
     amount: 90,
     owesMoney: true,
     description: "Gym",
-    time: "2024-07-06T18:30:00Z",
+    createdAt: "2024-07-06T18:30:00Z",
     createdBy: "you",
   },
   {
@@ -76,7 +76,7 @@ export const tempTransactions: Transaction[] = [
     amount: 300,
     owesMoney: false,
     description: "Trip",
-    time: "2024-07-07T09:00:00Z",
+    createdAt: "2024-07-07T09:00:00Z",
     createdBy: "you",
   },
   {
@@ -85,7 +85,7 @@ export const tempTransactions: Transaction[] = [
     amount: 50,
     owesMoney: false,
     description: "Ice cream",
-    time: "2024-07-08T21:00:00Z",
+    createdAt: "2024-07-08T21:00:00Z",
     createdBy: "you",
   },
   {
@@ -94,7 +94,7 @@ export const tempTransactions: Transaction[] = [
     amount: 75,
     owesMoney: true,
     description: "Drinks",
-    time: "2024-07-09T22:00:00Z",
+    createdAt: "2024-07-09T22:00:00Z",
     createdBy: "you",
   },
   {
@@ -103,7 +103,7 @@ export const tempTransactions: Transaction[] = [
     amount: 200,
     owesMoney: true,
     description: "Groceries",
-    time: "2024-07-10T17:00:00Z",
+    createdAt: "2024-07-10T17:00:00Z",
     createdBy: "you",
   },
   {
@@ -112,7 +112,7 @@ export const tempTransactions: Transaction[] = [
     amount: 50,
     owesMoney: false,
     description: "Parking",
-    time: "2024-07-11T11:00:00Z",
+    createdAt: "2024-07-11T11:00:00Z",
     createdBy: "you",
   },
   {
@@ -121,7 +121,7 @@ export const tempTransactions: Transaction[] = [
     amount: 100,
     owesMoney: true,
     description: "Books",
-    time: "2024-07-12T14:00:00Z",
+    createdAt: "2024-07-12T14:00:00Z",
     createdBy: "you",
   },
   {
@@ -130,7 +130,7 @@ export const tempTransactions: Transaction[] = [
     amount: 220,
     owesMoney: false,
     description: "Concert",
-    time: "2024-07-13T20:00:00Z",
+    createdAt: "2024-07-13T20:00:00Z",
     createdBy: "you",
   },
   {
@@ -139,7 +139,7 @@ export const tempTransactions: Transaction[] = [
     amount: 60,
     owesMoney: true,
     description: "Taxi",
-    time: "2024-07-14T13:00:00Z",
+    createdAt: "2024-07-14T13:00:00Z",
     createdBy: "you",
   },
   {
@@ -148,7 +148,7 @@ export const tempTransactions: Transaction[] = [
     amount: 180,
     owesMoney: true,
     description: "Hotel",
-    time: "2024-07-15T16:00:00Z",
+    createdAt: "2024-07-15T16:00:00Z",
     createdBy: "you",
   },
   {
@@ -157,7 +157,7 @@ export const tempTransactions: Transaction[] = [
     amount: 40,
     owesMoney: false,
     description: "Gifts",
-    time: "2024-07-16T19:00:00Z",
+    createdAt: "2024-07-16T19:00:00Z",
     createdBy: "you",
   },
   {
@@ -166,7 +166,7 @@ export const tempTransactions: Transaction[] = [
     amount: 250,
     owesMoney: true,
     description: "Party",
-    time: "2024-07-17T23:00:00Z",
+    createdAt: "2024-07-17T23:00:00Z",
     createdBy: "you",
   },
   {
@@ -175,7 +175,7 @@ export const tempTransactions: Transaction[] = [
     amount: 110,
     owesMoney: false,
     description: "Supplies",
-    time: "2024-07-18T08:00:00Z",
+    createdAt: "2024-07-18T08:00:00Z",
     createdBy: "you",
   },
   {
@@ -184,7 +184,7 @@ export const tempTransactions: Transaction[] = [
     amount: 130,
     owesMoney: true,
     description: "Dinner",
-    time: "2024-07-19T18:00:00Z",
+    createdAt: "2024-07-19T18:00:00Z",
     createdBy: "you",
   },
   {
@@ -193,7 +193,7 @@ export const tempTransactions: Transaction[] = [
     amount: 160,
     owesMoney: false,
     description: "Car rental",
-    time: "2024-07-20T12:00:00Z",
+    createdAt: "2024-07-20T12:00:00Z",
     createdBy: "you",
   },
   {
@@ -202,7 +202,7 @@ export const tempTransactions: Transaction[] = [
     amount: 70,
     owesMoney: true,
     description: "Lunch",
-    time: "2024-07-21T13:30:00Z",
+    createdAt: "2024-07-21T13:30:00Z",
     createdBy: "you",
   },
   {
@@ -211,7 +211,7 @@ export const tempTransactions: Transaction[] = [
     amount: 90,
     owesMoney: true,
     description: "Drinks",
-    time: "2024-07-22T22:00:00Z",
+    createdAt: "2024-07-22T22:00:00Z",
     createdBy: "you",
   },
   {
@@ -220,7 +220,7 @@ export const tempTransactions: Transaction[] = [
     amount: 210,
     owesMoney: true,
     description: "Movies",
-    time: "2024-07-23T20:00:00Z",
+    createdAt: "2024-07-23T20:00:00Z",
     createdBy: "you",
   },
   {
@@ -229,7 +229,7 @@ export const tempTransactions: Transaction[] = [
     amount: 170,
     owesMoney: false,
     description: "Snacks",
-    time: "2024-07-24T15:00:00Z",
+    createdAt: "2024-07-24T15:00:00Z",
     createdBy: "you",
   },
   {
@@ -238,7 +238,7 @@ export const tempTransactions: Transaction[] = [
     amount: 140,
     owesMoney: false,
     description: "Travel",
-    time: "2024-07-25T09:00:00Z",
+    createdAt: "2024-07-25T09:00:00Z",
     createdBy: "you",
   },
 ];
