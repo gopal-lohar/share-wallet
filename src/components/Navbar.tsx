@@ -34,7 +34,7 @@ export default async function Navbar() {
 function ProfilePicButton({ user }: { user: UserDetails }) {
   return (
     <Button variant="ghost" className="p-0 rounded-full">
-      <ProfilePic letter={user.name[0]} color={user.pfpColor} />
+      <ProfilePic letter={user.name[0]} color={user.pfpColour} />
     </Button>
   );
 }
