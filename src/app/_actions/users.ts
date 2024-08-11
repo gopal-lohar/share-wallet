@@ -31,5 +31,5 @@ export async function getUserData(): Promise<UserDetails | null> {
   if (!email) return null;
 
   const user = await User.findOne({ email }).lean();
-  return user;
+  return JSON.parse(JSON.stringify(user));
 }
