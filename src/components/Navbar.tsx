@@ -8,10 +8,9 @@ import { Button } from "@/components/ui/button";
 import UserContext from "@/context/UserContext";
 import { UserDetails } from "@/types/types";
 import ProfilePic from "@/components/ProfilePic";
-import AuthButton from "@/components/AuthButton";
-export default async function Navbar() {
+import { signIn } from "next-auth/react";
+export default function Navbar() {
   const user = useContext(UserContext);
-
   return (
     <nav className="w-full h-16 border-b sm:border-b-0">
       <div className="w-full max-w-[1500px] mx-auto px-2 flex items-center h-full gap-2">
@@ -22,7 +21,6 @@ export default async function Navbar() {
           </span>
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <AuthButton></AuthButton>
           <ModeToggle />
           {user ? <ProfilePicButton user={user} /> : <LoginButton />}
         </div>
@@ -44,6 +42,9 @@ function LoginButton() {
     <Button
       variant="outline"
       className="px-2 sm:pr-3 text-primary hover:text-primary rounded-full gap-2"
+      onClick={() => {
+        signIn();
+      }}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
