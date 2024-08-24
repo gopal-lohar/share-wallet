@@ -5,6 +5,7 @@ import { Transaction } from "@/types/types";
 import Transactions from "@/components/Transactions";
 import { UserBalance } from "@/components/Balance";
 import TransactionsContextProvider from "@/context/TransactionsContextProvider";
+import AddExpenseDialog from "./AddExpenseDialog";
 
 export default function Dashboard({
   transactions,
@@ -33,9 +34,7 @@ function DashboardHeader() {
         <Button className="w-full sm:w-max" variant="secondary">
           Friends
         </Button>
-        <Button className="w-full sm:w-max" variant="secondary">
-          Add Expense
-        </Button>
+        <AddExpenseDialog />
       </div>
     </div>
   );
