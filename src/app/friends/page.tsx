@@ -41,8 +41,8 @@ export default function UsersPage() {
   const router = useRouter();
 
   return (
-    <div className="w-full max-w-screen-md mx-auto px-2 mt-10">
-      <div className="flex gap-4 sm:gap-10 py-6 flex-wrap flex-row">
+    <div className="mx-auto mt-10 w-full max-w-screen-md px-2">
+      <div className="flex flex-row flex-wrap gap-4 py-6 sm:gap-10">
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
@@ -64,11 +64,11 @@ export default function UsersPage() {
           <PlusIcon />
         </Button>
       </div>
-      <div className="flex flex-col gap-2 max-w-screen-md mx-auto">
+      <div className="mx-auto flex max-w-screen-md flex-col gap-2">
         {friends.map((friend) => (
           <div
             key={friend.googleId}
-            className="flex items-center gap-2 p-4 rounded-lg border"
+            className="flex items-center gap-2 rounded-lg border p-4"
           >
             <ProfilePic letter={friend.name[0]} color={friend.pfpColor} />
             <p className="font-semibold text-muted-foreground">{friend.name}</p>

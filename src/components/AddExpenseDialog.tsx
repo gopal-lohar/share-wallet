@@ -106,7 +106,7 @@ export default function AddExpenseDialog() {
               }}
             />
             {errors.amount && (
-              <span className="text-destructive text-sm font-medium leading-none">
+              <span className="text-sm font-medium leading-none text-destructive">
                 {errors.amount}
               </span>
             )}
@@ -124,7 +124,7 @@ export default function AddExpenseDialog() {
               // }}
             />
           </div>
-          <div className="flex justify-between flex-wrap gap-2 py-2">
+          <div className="flex flex-wrap justify-between gap-2 py-2">
             <Label htmlFor="paidBy-input">Paid By</Label>
             <Select defaultValue="me">
               <SelectTrigger className="w-full" id="paidBy-input">
@@ -148,7 +148,7 @@ export default function AddExpenseDialog() {
               disabled
             />
           </div>
-          <div className="flex justify-between flex-wrap gap-2 py-2">
+          <div className="flex flex-wrap justify-between gap-2 py-2">
             <DialogClose asChild>
               <Button
                 variant="outline"

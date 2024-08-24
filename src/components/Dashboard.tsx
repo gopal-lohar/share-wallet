@@ -15,7 +15,7 @@ export default function Dashboard({
 }) {
   return (
     // height = 100vh - nav height
-    <div className="w-full max-w-[1500px] mx-auto p-2 sm:py-4 flex flex-col gap-4 h-[calc(100vh-4rem)] overflow-auto">
+    <div className="mx-auto flex h-[calc(100vh-4rem)] w-full max-w-[1500px] flex-col gap-4 overflow-auto p-2 sm:py-4">
       <TransactionsContextProvider data={transactions || []}>
         <DashboardHeader />
         <UserBalance />
@@ -27,11 +27,11 @@ export default function Dashboard({
 
 function DashboardHeader() {
   return (
-    <div className="flex gap-4 sm:gap-10 flex-wrap flex-col sm:flex-row">
-      <h2 className="text-3xl font-bold text-muted-foreground hidden sm:inline-block">
+    <div className="flex flex-col flex-wrap gap-4 sm:flex-row sm:gap-10">
+      <h2 className="hidden text-3xl font-bold text-muted-foreground sm:inline-block">
         Dashboard
       </h2>
-      <div className="w-full sm:w-max flex gap-2 ml-auto">
+      <div className="ml-auto flex w-full gap-2 sm:w-max">
         <Link href="/friends">
           <Button className="w-full sm:w-max" variant="secondary">
             Friends

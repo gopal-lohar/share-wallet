@@ -21,23 +21,23 @@ export default function Transactions() {
   const windowWidth = useWidth();
   if (windowWidth && windowWidth > 640) {
     return (
-      <div className="w-full rounded-lg border h-full min-h-[70vh]">
-        <div className="w-full h-full">
-          <div className="inline-flex h-10 items-center justify-center rounded-md border-b p-1 w-full rounded-b-none">
-            <div className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium w-full">
+      <div className="h-full min-h-[70vh] w-full rounded-lg border">
+        <div className="h-full w-full">
+          <div className="inline-flex h-10 w-full items-center justify-center rounded-md rounded-b-none border-b p-1">
+            <div className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium">
               You Owe
             </div>
-            <div className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium w-full">
+            <div className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium">
               You are Owed
             </div>
           </div>
           {/* 100% - OweOwed title height - extra space at bottom to make separator look good */}
-          <div className="flex divide-x h-[calc(100%-2.5rem-0.5rem)]">
+          <div className="flex h-[calc(100%-2.5rem-0.5rem)] divide-x">
             {/* 100% - margin compansation */}
-            <div className="w-full mt-2 h-[100%-0.5rem]">
+            <div className="mt-2 h-[100%-0.5rem] w-full">
               <TransactionsList type="owe" />
             </div>
-            <div className="w-full mt-2 h-[100%-0.5rem]">
+            <div className="mt-2 h-[100%-0.5rem] w-full">
               <TransactionsList type="owed" />
             </div>
           </div>
@@ -46,8 +46,8 @@ export default function Transactions() {
     );
   }
   return (
-    <div className="w-full rounded-lg border h-full min-h-[70vh]">
-      <Tabs defaultValue="owe" className="w-full h-full">
+    <div className="h-full min-h-[70vh] w-full rounded-lg border">
+      <Tabs defaultValue="owe" className="h-full w-full">
         <TabsList className="w-full rounded-b-none">
           <TabsTrigger value="owe" className="w-full">
             You Owe
@@ -72,7 +72,7 @@ function TransactionsList({ type }: { type: "owe" | "owed" }) {
   const { transactions } = useContext(TransactionsContext);
   const owesMoney = type === "owe";
   return (
-    <div className="px-2 h-full overflow-auto divide-y">
+    <div className="h-full divide-y overflow-auto px-2">
       {transactions.map((transaction) => {
         if (owesMoney !== transaction.owesMoney) return "";
         return (
@@ -100,14 +100,14 @@ function TransactionListItem({
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="w-full rounded-none gap-4 items-center p-2 py-3 h-auto"
+          className="h-auto w-full items-center gap-4 rounded-none p-2 py-3"
         >
           <ProfilePic
             letter={transaction.friend.name[0]}
             color={transaction.friend.pfpColor}
           />
           <span>{transaction.friend.name}</span>
-          <span className="text-xl ml-auto text-muted-foreground font-semibold">
+          <span className="ml-auto text-xl font-semibold text-muted-foreground">
             &#8377;{transaction.amount}
           </span>
         </Button>
@@ -123,24 +123,24 @@ function TransactionListItem({
           </DialogDescription>
           <div className="grid gap-4 py-4">
             <div>
-              <div className="text-muted-foreground text-sm">Amount</div>
+              <div className="text-sm text-muted-foreground">Amount</div>
               <div>{transaction.amount}</div>
             </div>
             <div>
-              <div className="text-muted-foreground text-sm">Description</div>
+              <div className="text-sm text-muted-foreground">Description</div>
               <div>{transaction.description}</div>
             </div>
             <div>
-              <div className="text-muted-foreground text-sm">Created By</div>
+              <div className="text-sm text-muted-foreground">Created By</div>
               <div>{transaction.createdBy}</div>
             </div>
             <div>
-              <div className="text-muted-foreground text-sm">Created At</div>
+              <div className="text-sm text-muted-foreground">Created At</div>
               <div>{new Date(transaction.createdAt).toLocaleString()}</div>
             </div>
           </div>
         </DialogHeader>
-        <DialogFooter className="gap-4 flex-col sm:justify-between sm:gap-2">
+        <DialogFooter className="flex-col gap-4 sm:justify-between sm:gap-2">
           <Button
             variant="destructive"
             onClick={(e) => {
