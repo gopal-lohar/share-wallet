@@ -6,6 +6,7 @@ import Transactions from "@/components/Transactions";
 import { UserBalance } from "@/components/Balance";
 import TransactionsContextProvider from "@/context/TransactionsContextProvider";
 import AddExpenseDialog from "./AddExpenseDialog";
+import Link from "next/link";
 
 export default function Dashboard({
   transactions,
@@ -31,9 +32,11 @@ function DashboardHeader() {
         Dashboard
       </h2>
       <div className="w-full sm:w-max flex gap-2 ml-auto">
-        <Button className="w-full sm:w-max" variant="secondary">
-          Friends
-        </Button>
+        <Link href="/friends">
+          <Button className="w-full sm:w-max" variant="secondary">
+            Friends
+          </Button>
+        </Link>
         <AddExpenseDialog />
       </div>
     </div>

@@ -39,7 +39,7 @@ type Expense = z.infer<typeof expenseSchema>;
 type ExpenseErrors = Partial<Record<keyof Expense, string[]>>;
 
 export default function AddExpenseDialog() {
-  const [dialogOpen, setDialogOpen] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [expense, setExpense] = useState({
     expenseWith: [{ googleId: "", name: "" }],
     amount: 0,
