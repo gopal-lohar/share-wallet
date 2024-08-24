@@ -149,7 +149,7 @@ function TransactionListItem({
           >
             Delete
           </Button>
-          <DialogClose>
+          <DialogClose asChild>
             <Button variant="outline">Close</Button>
           </DialogClose>
         </DialogFooter>

@@ -5,6 +5,10 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getServerSession } from "next-auth";
 import SessionProvider from "./components/SessionProvider";
+import AppModeContextProvider from "@/context/AppModeContextProvider";
+import UserContextProvider from "@/context/UserContextProvider";
+import { getUserData } from "./_actions/users";
+import Navbar from "@/components/Navbar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -23,6 +27,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession();
+  const user = await getUserData();
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -32,9 +37,18 @@ export default async function RootLayout({
           fontSans.variable
         )}
       >
-        <ThemeProvider>
-          <SessionProvider session={session}>{children}</SessionProvider>
-        </ThemeProvider>
+        <div>
+          <UserContextProvider user={user}>
+            <AppModeContextProvider user={user}>
+              <ThemeProvider>
+                <SessionProvider session={session}>
+                  <Navbar />
+                  {children}
+                </SessionProvider>
+              </ThemeProvider>
+            </AppModeContextProvider>
+          </UserContextProvider>
+        </div>
       </body>
     </html>
   );

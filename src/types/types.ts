@@ -15,7 +15,7 @@ export interface Transaction {
   createdAt: string; // remove this and use createdAt and EditedAt instead
 }
 
-interface Friend {
+export interface Friend {
   googleId: string;
   name: string;
   pfpColor: string;

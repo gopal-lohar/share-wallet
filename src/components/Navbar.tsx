@@ -9,17 +9,18 @@ import UserContext from "@/context/UserContext";
 import { UserDetails } from "@/types/types";
 import ProfilePic from "@/components/ProfilePic";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 export default function Navbar() {
   const user = useContext(UserContext);
   return (
-    <nav className="h-16 w-full border-b sm:border-b-0">
+    <nav className="h-16 w-full border-b sm:border-b">
       <div className="mx-auto flex h-full w-full max-w-[1500px] items-center gap-2 px-2">
-        <div className="flex h-full items-center gap-4">
+        <Link href="/" className="flex h-full items-center gap-4">
           <ShareWalletIcon className="size-10" />
           <span className="hidden translate-y-0.5 text-2xl font-extrabold text-muted-foreground sm:inline-block">
             Share Wallet
           </span>
-        </div>
+        </Link>
         <div className="ml-auto flex items-center gap-2">
           <ModeToggle />
           {user ? <ProfilePicButton user={user} /> : <LoginButton />}

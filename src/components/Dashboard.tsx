@@ -15,12 +15,14 @@ export default function Dashboard({
 }) {
   return (
     // height = 100vh - nav height
-    <div className="mx-auto flex h-[calc(100vh-4rem)] w-full max-w-[1500px] flex-col gap-4 overflow-auto p-2 sm:py-4">
-      <TransactionsContextProvider data={transactions || []}>
-        <DashboardHeader />
-        <UserBalance />
-        <Transactions />
-      </TransactionsContextProvider>
+    <div className="h-[calc(100vh-4rem)] w-full overflow-auto">
+      <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 p-2 sm:py-4">
+        <TransactionsContextProvider data={transactions || []}>
+          <DashboardHeader />
+          <UserBalance />
+          <Transactions />
+        </TransactionsContextProvider>
+      </div>
     </div>
   );
 }
