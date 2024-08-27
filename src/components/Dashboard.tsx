@@ -30,7 +30,7 @@ export default function Dashboard({
 function DashboardHeader() {
   return (
     <div className="flex flex-col flex-wrap gap-4 sm:flex-row sm:gap-10">
-      <h2 className="hidden text-3xl font-bold text-muted-foreground sm:inline-block">
+      <h2 className="hidden text-2xl font-medium text-muted-foreground sm:inline-block">
         Dashboard
       </h2>
       <div className="ml-auto flex w-full gap-2 sm:w-max">

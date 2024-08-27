@@ -17,7 +17,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-full w-full max-w-[1500px] items-center gap-2 px-2">
         <Link href="/" className="flex h-full items-center gap-4">
           <ShareWalletIcon className="size-10" />
-          <span className="hidden translate-y-0.5 text-2xl font-extrabold text-muted-foreground sm:inline-block">
+          <span className="hidden translate-y-0.5 text-2xl font-bold text-muted-foreground sm:inline-block">
             Share Wallet
           </span>
         </Link>
