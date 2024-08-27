@@ -8,7 +8,7 @@ const friends: Friend[] = [
   { id: `${Math.random()}`, name: "David", pfpColor: getPfpColor("David") },
   { id: `${Math.random()}`, name: "Eva", pfpColor: getPfpColor("Eva") },
   { id: `${Math.random()}`, name: "Frank", pfpColor: getPfpColor("Frank") },
-  { id: `${Math.random()}`, name: "Grace", pfpColor: getPfpColor("Grace") },
+  { id: `${Math.random()}`, name: "Graced", pfpColor: getPfpColor("Graced") },
 ];
 
 const descriptions = [
