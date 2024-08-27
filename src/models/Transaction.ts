@@ -1,7 +1,7 @@
 import mongoose, { Model, Document } from "mongoose";
 
 interface FriendSchemaInterface extends Document {
-  googleId: string;
+  id: string;
   name: string;
   pfpColor: string;
 }
@@ -15,7 +15,7 @@ interface TransactionSchemaInterface extends Document {
 
 const friendSchema = new mongoose.Schema<FriendSchemaInterface>(
   {
-    googleId: {
+    id: {
       type: String,
       required: true,
     },

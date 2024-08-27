@@ -21,7 +21,7 @@ import { useContext, useEffect } from "react";
 import AppModeContext from "@/context/AppModeContext";
 import { AddFriend } from "./_components/AddFriend";
 
-export type FriendClient = Omit<OriginalFriend, "googleId"> & {
+export type FriendClient = Omit<OriginalFriend, "id"> & {
   id: string;
 };
 

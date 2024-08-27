@@ -22,7 +22,7 @@ export default function Test() {
 // } from "@/components/ui/popover";
 // import { cn } from "@/lib/utils";
 
-// type Friend = { _id: string; googleId: string; name: string };
+// type Friend = { _id: string; id: string; name: string };
 
 // export default function AddExpenseWith({
 //   expense,
@@ -60,7 +60,7 @@ export default function Test() {
 //     <div className="flex gap-2 flex-wrap">
 //       {expense.expenseWith.map((friend) => (
 //         <Badge
-//           key={friend.googleId}
+//           key={friend.id}
 //           variant="outline"
 //           className="p-1 pl-2 rounded-full h-9"
 //         >
@@ -74,7 +74,7 @@ export default function Test() {
 //                 ...prevExpense,
 //                 expenseWith: prevExpense.expenseWith.filter(
 //                   (expenseWithFriend) =>
-//                     expenseWithFriend.googleId !== friend.googleId
+//                     expenseWithFriend.id !== friend.id
 //                 ),
 //               }));
 //             }}
@@ -114,11 +114,11 @@ export default function Test() {
 //                   optionsResponse.data.map((friend: Friend) => {
 //                     const isSelected = expense.expenseWith.some(
 //                       (friendInExpense) =>
-//                         friendInExpense.googleId === friend.googleId
+//                         friendInExpense.id === friend.id
 //                     );
 //                     return (
 //                       <CommandItem
-//                         key={friend.googleId}
+//                         key={friend.id}
 //                         value={friend.name}
 //                         onSelect={() => {
 //                           if (isSelected) return;

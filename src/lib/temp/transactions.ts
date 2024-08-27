@@ -2,17 +2,17 @@ import { Transaction } from "@/types/types";
 import { getPfpColor } from "@/lib/utils";
 
 const friends = [
-  { googleId: "1", name: "Alice", pfpColor: getPfpColor("alice@gmail.com") },
-  { googleId: "2", name: "Bob", pfpColor: getPfpColor("bob@gmail.com") },
+  { id: "1", name: "Alice", pfpColor: getPfpColor("alice@gmail.com") },
+  { id: "2", name: "Bob", pfpColor: getPfpColor("bob@gmail.com") },
   {
-    googleId: "3",
+    id: "3",
     name: "Charlie",
     pfpColor: getPfpColor("charlie@gmail.com"),
   },
-  { googleId: "4", name: "David", pfpColor: getPfpColor("david@gmail.com") },
-  { googleId: "5", name: "Eve", pfpColor: getPfpColor("eve@gmail.com") },
-  { googleId: "6", name: "Frank", pfpColor: getPfpColor("frank@gmail.com") },
-  { googleId: "7", name: "Grace", pfpColor: getPfpColor("grace@gmail.com") },
+  { id: "4", name: "David", pfpColor: getPfpColor("david@gmail.com") },
+  { id: "5", name: "Eve", pfpColor: getPfpColor("eve@gmail.com") },
+  { id: "6", name: "Frank", pfpColor: getPfpColor("frank@gmail.com") },
+  { id: "7", name: "Grace", pfpColor: getPfpColor("grace@gmail.com") },
 ];
 
 export const tempTransactions: Transaction[] = [

@@ -24,13 +24,13 @@ export const expenseSchema = z.object({
   expenseWith: z
     .array(
       z.object({
-        googleId: z.string(),
+        id: z.string(),
         name: z.string(),
       })
     )
     .min(1, "There should be at least one friend"),
   amount: z.number().positive("Amount should be Greater than 0"),
-  description: z.string().optional(),
+  description: z.string(),
   paidBy: z.string().min(1),
   expenseTime: z.date(),
 });
@@ -41,7 +41,7 @@ type ExpenseErrors = Partial<Record<keyof Expense, string[]>>;
 export default function AddExpenseDialog() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [expense, setExpense] = useState({
-    expenseWith: [{ googleId: "", name: "" }],
+    expenseWith: [{ id: "", name: "" }],
     amount: 0,
     description: "",
     paidBy: "x",
@@ -133,7 +133,7 @@ export default function AddExpenseDialog() {
               <SelectContent>
                 <SelectItem value="me">Me</SelectItem>
                 {/* {expense.expenseWith.map((friend) => (
-                  <SelectItem key={friend.googleId} value={friend.googleId}>
+                  <SelectItem key={friend.id} value={friend.id}>
                     {friend.name}
                   </SelectItem>
                 ))} */}

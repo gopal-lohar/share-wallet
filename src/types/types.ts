@@ -1,5 +1,5 @@
 export interface UserDetails {
-  googleId: string;
+  id: string;
   name: string;
   email: string;
   pfpColour: string;
@@ -16,7 +16,7 @@ export interface Transaction {
 }
 
 export interface Friend {
-  googleId: string;
+  id: string;
   name: string;
   pfpColor: string;
 }

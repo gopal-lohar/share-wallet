@@ -9,7 +9,7 @@ import { z, ZodError } from "zod";
 
 const transactionSchema = z.object({
   friend: z.object({
-    googleId: z.string(),
+    id: z.string(),
     name: z.string(),
     pfpColor: z.string(),
   }),

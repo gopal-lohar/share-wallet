@@ -9,15 +9,17 @@ import { getServerSession } from "next-auth";
 export async function createUser(data: any) {
   await connectDB();
   const { user } = data;
-  const googleId = user.id;
+  console.log("data", data);
+  console.log("user", user);
+  const id = user.id;
   const name = user.name;
   const email = user.email;
 
-  const pfpColour = getPfpColor(googleId);
-  const existingUser = await User.findOne({ googleId });
+  const pfpColour = getPfpColor(id);
+  const existingUser = await User.findOne({ id });
   if (existingUser) return;
   await User.create({
-    googleId,
+    id,
     name,
     email,
     pfpColour,
