@@ -26,20 +26,20 @@ export default function Transactions() {
         <div className="h-full w-full">
           <div className="inline-flex h-10 w-full items-center justify-center rounded-md rounded-b-none border-b p-1">
             <div className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium">
-              You Owe
+              Borrowed
             </div>
             <div className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium">
-              You are Owed
+              Lended
             </div>
           </div>
           {/* 100% - OweOwed title height - extra space at bottom to make separator look good */}
           <div className="flex h-[calc(100%-2.5rem-0.5rem)] divide-x">
             {/* 100% - margin compansation */}
             <div className="mt-2 h-[100%-0.5rem] w-full">
-              <TransactionsList type="owe" />
+              <TransactionsList type="borrowed" />
             </div>
             <div className="mt-2 h-[100%-0.5rem] w-full">
-              <TransactionsList type="owed" />
+              <TransactionsList type="lended" />
             </div>
           </div>
         </div>
@@ -48,47 +48,49 @@ export default function Transactions() {
   }
   return (
     <div className="h-full min-h-[70vh] w-full rounded-lg border">
-      <Tabs defaultValue="owe" className="h-full w-full">
+      <Tabs defaultValue="borrowed" className="h-full w-full">
         <TabsList className="w-full rounded-b-none">
-          <TabsTrigger value="owe" className="w-full">
-            You Owe
+          <TabsTrigger value="borrowed" className="w-full">
+            Borrowed
           </TabsTrigger>
-          <TabsTrigger value="owed" className="w-full">
-            You are Owed
+          <TabsTrigger value="lended" className="w-full">
+            Lended
           </TabsTrigger>
         </TabsList>
         {/* 100% - tab trigger height - margin top */}
-        <TabsContent className="h-[calc(100%-2.5rem-0.5rem)]" value="owe">
-          <TransactionsList type="owe" />
+        <TabsContent className="h-[calc(100%-2.5rem-0.5rem)]" value="borrowed">
+          <TransactionsList type="borrowed" />
         </TabsContent>
-        <TabsContent className="h-[calc(100%-2.5rem-0.5rem)]" value="owed">
-          <TransactionsList type="owed" />
+        <TabsContent className="h-[calc(100%-2.5rem-0.5rem)]" value="lended">
+          <TransactionsList type="lended" />
         </TabsContent>
       </Tabs>
     </div>
   );
 }
 
-function TransactionsList({ type }: { type: "owe" | "owed" }) {
-  const { transactions } = useContext(TransactionsContext);
-  const user = useContext(UserContext);
-
-  // NOTE: This is a temporary fix to avoid breaking the app
-  const owesMoney = type === "owe";
-
-  transactions.filter((transaction) => {
-    if (user?.id && transaction.borrower.id === user.id) {
-      return owesMoney;
+function TransactionsList({ type }: { type: "borrowed" | "lended" }) {
+  let { transactions } = useContext(TransactionsContext);
+  let user = useContext(UserContext);
+  user = user?.pfpColour ? { ...user, id: "me", name: "Me" } : user;
+  transactions = transactions.filter((transaction) => {
+    if (user?.id === undefined) return false;
+    if (transaction.borrower.id === user.id) {
+      return type === "borrowed";
+    } else if (transaction.lender.id === user.id) {
+      return type === "lended";
     }
-    return false;
   });
+
+  console.log(transactions);
+
   return (
     <div className="h-full divide-y overflow-auto px-2">
       {transactions.map((transaction) => {
         return (
           <TransactionListItem
             transaction={transaction}
-            owesMoney={owesMoney}
+            transactionType={type}
             key={transaction._id}
           />
         );
@@ -99,13 +101,14 @@ function TransactionsList({ type }: { type: "owe" | "owed" }) {
 
 function TransactionListItem({
   transaction,
-  owesMoney,
+  transactionType,
 }: {
   transaction: Transaction;
-  owesMoney: boolean;
+  transactionType: "borrowed" | "lended";
 }) {
   const { deleteTransaction } = useContext(TransactionsContext);
-  const friend = owesMoney ? transaction.lender : transaction.borrower;
+  const friend =
+    transactionType === "borrowed" ? transaction.lender : transaction.borrower;
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -124,7 +127,9 @@ function TransactionListItem({
         <DialogHeader>
           <DialogTitle>Transaction Details</DialogTitle>
           <DialogDescription>
-            {owesMoney ? `You Owe ${friend.name}` : `${friend.name} Owes You`}{" "}
+            {transactionType === "borrowed"
+              ? `You Owe ${friend.name}`
+              : `${friend.name} Owes You`}{" "}
             &#8377;{transaction.amount}
           </DialogDescription>
           <div className="grid gap-4 py-4">
@@ -138,7 +143,7 @@ function TransactionListItem({
             </div>
             <div>
               <div className="text-sm text-muted-foreground">Created By</div>
-              <div>{transaction.createdBy}</div>
+              <div>{transaction.createdBy.name}</div>
             </div>
             <div>
               <div className="text-sm text-muted-foreground">Created At</div>

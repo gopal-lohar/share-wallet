@@ -7,17 +7,26 @@ import { UserBalance } from "@/components/Balance";
 import TransactionsContextProvider from "@/context/TransactionsContextProvider";
 import AddExpenseDialog from "./AddExpenseDialog";
 import Link from "next/link";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import { localStorageKeys } from "@/lib/local-storage-keys";
 
 export default function Dashboard({
-  transactions,
+  transactionsProp,
 }: {
-  transactions: Transaction[] | null;
+  transactionsProp: Transaction[] | null;
 }) {
+  const [transactions, setTransactions] = useLocalStorage<Transaction[]>(
+    localStorageKeys.transactions,
+    []
+  );
   return (
     // height = 100vh - nav height
     <div className="h-[calc(100vh-4rem)] w-full overflow-auto">
       <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 p-2 sm:py-4">
-        <TransactionsContextProvider data={transactions || []}>
+        <TransactionsContextProvider
+          transactions={transactions || []}
+          setTransactions={setTransactions}
+        >
           <DashboardHeader />
           <UserBalance />
           <Transactions />

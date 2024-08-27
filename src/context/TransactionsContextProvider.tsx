@@ -7,12 +7,13 @@ import TransactionsContext from "@/context/TransactionsContext";
 
 export default function TransactionsContextProvider({
   children,
-  data,
+  transactions,
+  setTransactions,
 }: {
   children: React.ReactNode;
-  data: Transaction[];
+  transactions: Transaction[];
+  setTransactions: React.Dispatch<React.SetStateAction<Transaction[]>>;
 }) {
-  const [transactions, setTransactions] = useState<Transaction[]>(data);
   const deleteTransaction = useCallback(
     (id: string) => {
       setTransactions((prevTransactions) => {
@@ -21,8 +22,18 @@ export default function TransactionsContextProvider({
     },
     [setTransactions]
   );
+  const addTransaction = useCallback(
+    (transaction: Transaction) => {
+      setTransactions((prevTransactions) => {
+        return [transaction, ...prevTransactions];
+      });
+    },
+    [setTransactions]
+  );
   return (
-    <TransactionsContext.Provider value={{ transactions, deleteTransaction }}>
+    <TransactionsContext.Provider
+      value={{ transactions, deleteTransaction, addTransaction }}
+    >
       {children}
     </TransactionsContext.Provider>
   );

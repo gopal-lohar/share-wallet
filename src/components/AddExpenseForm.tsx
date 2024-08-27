@@ -26,10 +26,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn, getPfpColor } from "@/lib/utils";
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useContext, useEffect, useMemo, useState, useTransition } from "react";
 import { Friend } from "@/types/types";
 import { createTransactions } from "./create-transactions";
 import ProfilePic from "./ProfilePic";
+import TransactionsContext from "@/context/TransactionsContext";
 
 const friendSchema = z.object({
   id: z.string(),
@@ -63,6 +64,7 @@ export default function AddExpenseForm({
   });
   const [errors, setErrors] = useState<ExpenseErrors>({ _errors: [] });
   const [isSubmitting, startSubmitting] = useTransition();
+  const { addTransaction } = useContext(TransactionsContext);
 
   return (
     <form
@@ -71,12 +73,16 @@ export default function AddExpenseForm({
         const result = expenseSchema.safeParse(expense);
         if (result.success) {
           setErrors({ _errors: [] });
-          // console.log("Form submitted successfully", expense);
-          createTransactions(
+          console.log("Form submitted successfully", expense);
+          const transactions = createTransactions(
             { id: "me", name: "Me", pfpColor: getPfpColor("Me") },
             expense
           );
-          // closeDialogue();
+          transactions.forEach((transaction, i) => {
+            console.log(i);
+            addTransaction(transaction);
+          });
+          closeDialogue();
         } else {
           const formattedErrors = result.error.format();
           setErrors(formattedErrors);
