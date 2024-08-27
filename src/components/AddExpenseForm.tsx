@@ -31,6 +31,7 @@ import { Friend } from "@/types/types";
 import { createTransactions } from "./create-transactions";
 import ProfilePic from "./ProfilePic";
 import TransactionsContext from "@/context/TransactionsContext";
+import { localStorageKeys } from "@/lib/local-storage-keys";
 
 const friendSchema = z.object({
   id: z.string(),
@@ -57,7 +58,7 @@ export default function AddExpenseForm({
 }) {
   const [expense, setExpense] = useState<Expense>({
     expenseWith: [{ id: "me", name: "Me", pfpColor: getPfpColor("Me") }],
-    amount: 10,
+    amount: 0,
     description: "",
     paidBy: [],
     expenseTime: new Date(),
@@ -79,8 +80,12 @@ export default function AddExpenseForm({
             expense
           );
           transactions.forEach((transaction, i) => {
-            console.log(i);
-            addTransaction(transaction);
+            if (
+              transaction.borrower.id === "me" ||
+              transaction.lender.id === "me"
+            ) {
+              addTransaction(transaction);
+            }
           });
           closeDialogue();
         } else {
@@ -222,28 +227,9 @@ function AddExpenseWith({
   const [error, setError] = useState("");
 
   const searchFriends = async (query: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    const friends: Friend[] = [
-      { id: `${Math.random()}`, name: "Alice", pfpColor: getPfpColor("Alice") },
-      { id: `${Math.random()}`, name: "Bob", pfpColor: getPfpColor("Bob") },
-      {
-        id: `${Math.random()}`,
-        name: "Charlie",
-        pfpColor: getPfpColor("Charlie"),
-      },
-      { id: `${Math.random()}`, name: "David", pfpColor: getPfpColor("David") },
-      { id: `${Math.random()}`, name: "Eva", pfpColor: getPfpColor("Eva") },
-      { id: `${Math.random()}`, name: "Frank", pfpColor: getPfpColor("Frank") },
-      {
-        id: `${Math.random()}`,
-        name: "Graced",
-        pfpColor: getPfpColor("Graced"),
-      },
-    ];
-    const low = Math.floor(Math.random() * friends.length);
-    const high = Math.floor(Math.random() * friends.length);
-    if (low === high) return [friends[low]];
-    return friends.slice(Math.min(low, high), Math.max(low, high));
+    let localFriends = localStorage.getItem(localStorageKeys.friends);
+    const searchedFriends = localFriends ? JSON.parse(localFriends) : [];
+    return searchedFriends || [];
   };
 
   useEffect(() => {

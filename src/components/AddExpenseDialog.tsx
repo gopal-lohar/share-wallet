@@ -11,7 +11,7 @@ import AddExpenseForm from "./AddExpenseForm";
 import { useState } from "react";
 
 export default function AddExpenseDialog() {
-  const [dialogOpen, setDialogOpen] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
