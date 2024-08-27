@@ -7,15 +7,7 @@ import { Transaction } from "@/types/types";
 
 async function getTransactions(): Promise<Transaction[] | null> {
   await wait(500);
-  return tempTransactions.map((transaction) => {
-    return {
-      ...transaction,
-      friend: {
-        ...transaction.friend,
-        name: "server " + transaction.friend.name,
-      },
-    };
-  });
+  return tempTransactions;
 }
 
 export default async function Home() {

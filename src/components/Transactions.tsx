@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
+import UserContext from "@/context/UserContext";
 
 export default function Transactions() {
   const windowWidth = useWidth();
@@ -70,11 +71,20 @@ export default function Transactions() {
 
 function TransactionsList({ type }: { type: "owe" | "owed" }) {
   const { transactions } = useContext(TransactionsContext);
+  const user = useContext(UserContext);
+
+  // NOTE: This is a temporary fix to avoid breaking the app
   const owesMoney = type === "owe";
+
+  transactions.filter((transaction) => {
+    if (user?.id && transaction.borrower.id === user.id) {
+      return owesMoney;
+    }
+    return false;
+  });
   return (
     <div className="h-full divide-y overflow-auto px-2">
       {transactions.map((transaction) => {
-        if (owesMoney !== transaction.owesMoney) return "";
         return (
           <TransactionListItem
             transaction={transaction}
@@ -95,6 +105,7 @@ function TransactionListItem({
   owesMoney: boolean;
 }) {
   const { deleteTransaction } = useContext(TransactionsContext);
+  const friend = owesMoney ? transaction.lender : transaction.borrower;
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -102,11 +113,8 @@ function TransactionListItem({
           variant="ghost"
           className="h-auto w-full items-center gap-4 rounded-none p-2 py-3"
         >
-          <ProfilePic
-            letter={transaction.friend.name[0]}
-            color={transaction.friend.pfpColor}
-          />
-          <span>{transaction.friend.name}</span>
+          <ProfilePic letter={friend.name[0]} color={friend.pfpColor} />
+          <span>{friend.name}</span>
           <span className="ml-auto text-xl font-semibold text-muted-foreground">
             &#8377;{transaction.amount}
           </span>
@@ -116,9 +124,7 @@ function TransactionListItem({
         <DialogHeader>
           <DialogTitle>Transaction Details</DialogTitle>
           <DialogDescription>
-            {owesMoney
-              ? `You Owe ${transaction.friend.name}`
-              : `${transaction.friend.name} Owes You`}{" "}
+            {owesMoney ? `You Owe ${friend.name}` : `${friend.name} Owes You`}{" "}
             &#8377;{transaction.amount}
           </DialogDescription>
           <div className="grid gap-4 py-4">

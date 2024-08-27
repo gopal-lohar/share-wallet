@@ -1,244 +1,76 @@
-import { Transaction } from "@/types/types";
+import { Friend, Transaction } from "@/types/types";
 import { getPfpColor } from "@/lib/utils";
 
-const friends = [
-  { id: "1", name: "Alice", pfpColor: getPfpColor("alice@gmail.com") },
-  { id: "2", name: "Bob", pfpColor: getPfpColor("bob@gmail.com") },
-  {
-    id: "3",
-    name: "Charlie",
-    pfpColor: getPfpColor("charlie@gmail.com"),
-  },
-  { id: "4", name: "David", pfpColor: getPfpColor("david@gmail.com") },
-  { id: "5", name: "Eve", pfpColor: getPfpColor("eve@gmail.com") },
-  { id: "6", name: "Frank", pfpColor: getPfpColor("frank@gmail.com") },
-  { id: "7", name: "Grace", pfpColor: getPfpColor("grace@gmail.com") },
+const friends: Friend[] = [
+  { id: `${Math.random()}`, name: "Alice", pfpColor: getPfpColor("Alice") },
+  { id: `${Math.random()}`, name: "Bob", pfpColor: getPfpColor("Bob") },
+  { id: `${Math.random()}`, name: "Charlie", pfpColor: getPfpColor("Charlie") },
+  { id: `${Math.random()}`, name: "David", pfpColor: getPfpColor("David") },
+  { id: `${Math.random()}`, name: "Eva", pfpColor: getPfpColor("Eva") },
+  { id: `${Math.random()}`, name: "Frank", pfpColor: getPfpColor("Frank") },
+  { id: `${Math.random()}`, name: "Grace", pfpColor: getPfpColor("Grace") },
 ];
 
-export const tempTransactions: Transaction[] = [
-  {
-    _id: "60d21b4667d0d8992e610c85",
-    friend: friends[0],
-    amount: 100,
-    owesMoney: true,
-    description: "Dinner",
-    createdAt: "2024-07-01T18:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c86",
-    friend: friends[1],
-    amount: 200,
-    owesMoney: false,
-    description: "Lunch",
-    createdAt: "2024-07-02T12:30:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c87",
-    friend: friends[2],
-    amount: 150,
-    owesMoney: true,
-    description: "Movies",
-    createdAt: "2024-07-03T20:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c88",
-    friend: friends[3],
-    amount: 80,
-    owesMoney: true,
-    description: "Coffee",
-    createdAt: "2024-07-04T10:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c89",
-    friend: friends[4],
-    amount: 120,
-    owesMoney: false,
-    description: "Snacks",
-    createdAt: "2024-07-05T15:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c8a",
-    friend: friends[5],
-    amount: 90,
-    owesMoney: true,
-    description: "Gym",
-    createdAt: "2024-07-06T18:30:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c8b",
-    friend: friends[6],
-    amount: 300,
-    owesMoney: false,
-    description: "Trip",
-    createdAt: "2024-07-07T09:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c8c",
-    friend: friends[0],
-    amount: 50,
-    owesMoney: false,
-    description: "Ice cream",
-    createdAt: "2024-07-08T21:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c8d",
-    friend: friends[1],
-    amount: 75,
-    owesMoney: true,
-    description: "Drinks",
-    createdAt: "2024-07-09T22:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c8e",
-    friend: friends[2],
-    amount: 200,
-    owesMoney: true,
-    description: "Groceries",
-    createdAt: "2024-07-10T17:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c8f",
-    friend: friends[3],
-    amount: 50,
-    owesMoney: false,
-    description: "Parking",
-    createdAt: "2024-07-11T11:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c90",
-    friend: friends[4],
-    amount: 100,
-    owesMoney: true,
-    description: "Books",
-    createdAt: "2024-07-12T14:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c91",
-    friend: friends[5],
-    amount: 220,
-    owesMoney: false,
-    description: "Concert",
-    createdAt: "2024-07-13T20:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c92",
-    friend: friends[6],
-    amount: 60,
-    owesMoney: true,
-    description: "Taxi",
-    createdAt: "2024-07-14T13:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c93",
-    friend: friends[0],
-    amount: 180,
-    owesMoney: true,
-    description: "Hotel",
-    createdAt: "2024-07-15T16:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c94",
-    friend: friends[1],
-    amount: 40,
-    owesMoney: false,
-    description: "Gifts",
-    createdAt: "2024-07-16T19:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c95",
-    friend: friends[2],
-    amount: 250,
-    owesMoney: true,
-    description: "Party",
-    createdAt: "2024-07-17T23:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c96",
-    friend: friends[3],
-    amount: 110,
-    owesMoney: false,
-    description: "Supplies",
-    createdAt: "2024-07-18T08:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c97",
-    friend: friends[4],
-    amount: 130,
-    owesMoney: true,
-    description: "Dinner",
-    createdAt: "2024-07-19T18:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c98",
-    friend: friends[5],
-    amount: 160,
-    owesMoney: false,
-    description: "Car rental",
-    createdAt: "2024-07-20T12:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c99",
-    friend: friends[6],
-    amount: 70,
-    owesMoney: true,
-    description: "Lunch",
-    createdAt: "2024-07-21T13:30:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c9a",
-    friend: friends[0],
-    amount: 90,
-    owesMoney: true,
-    description: "Drinks",
-    createdAt: "2024-07-22T22:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c9b",
-    friend: friends[1],
-    amount: 210,
-    owesMoney: true,
-    description: "Movies",
-    createdAt: "2024-07-23T20:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c9c",
-    friend: friends[2],
-    amount: 170,
-    owesMoney: false,
-    description: "Snacks",
-    createdAt: "2024-07-24T15:00:00Z",
-    createdBy: "you",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c9d",
-    friend: friends[3],
-    amount: 140,
-    owesMoney: false,
-    description: "Travel",
-    createdAt: "2024-07-25T09:00:00Z",
-    createdBy: "you",
-  },
+const descriptions = [
+  "Dinner at the restaurant",
+  "Bought groceries",
+  "Paid for movie tickets",
+  "Gas money",
+  "Split the cab fare",
+  "Bought snacks for the party",
+  "Shared hotel room expenses",
 ];
+
+const getRandomFriend = (excludeId?: string): Friend => {
+  const availableFriends = excludeId
+    ? friends.filter((friend) => friend.id !== excludeId)
+    : friends;
+  return availableFriends[Math.floor(Math.random() * availableFriends.length)];
+};
+
+const generateTransactions = (): Transaction[] => {
+  const transactions: Transaction[] = [];
+
+  const userTransactionsCount: Record<string, number> = {};
+  const userLenderCount: Record<string, number> = {};
+
+  while (transactions.length < 50) {
+    for (const friend of friends) {
+      if (
+        userTransactionsCount[friend.id] &&
+        userTransactionsCount[friend.id] >= 10
+      )
+        continue;
+
+      const isLender = (userLenderCount[friend.id] || 0) < 5;
+      const lender = isLender ? friend : getRandomFriend(friend.id);
+      const borrower = isLender ? getRandomFriend(friend.id) : friend;
+
+      const transaction: Transaction = {
+        _id: `${Math.random()}`,
+        createdBy: lender.id,
+        lender,
+        borrower,
+        amount: Math.floor(Math.random() * 100) + 1, // Random amount between 1 and 100
+        description:
+          descriptions[Math.floor(Math.random() * descriptions.length)],
+        createdAt: new Date().toISOString(),
+        editedAt: new Date().toISOString(),
+      };
+
+      transactions.push(transaction);
+
+      userTransactionsCount[friend.id] =
+        (userTransactionsCount[friend.id] || 0) + 1;
+      if (isLender)
+        userLenderCount[friend.id] = (userLenderCount[friend.id] || 0) + 1;
+
+      if (transactions.length >= 50) break;
+    }
+  }
+
+  return transactions;
+};
+
+const tempTransactions = generateTransactions();
+export { tempTransactions };
