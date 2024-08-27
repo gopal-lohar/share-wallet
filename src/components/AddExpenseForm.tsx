@@ -41,7 +41,16 @@ export const expenseSchema = z.object({
     .min(1, "There should be at least one friend"),
   amount: z.number().positive("Amount should be Greater than 0"),
   description: z.string(),
-  paidBy: z.string().min(1),
+  paidBy: z
+    .array(
+      //it's safe to use array here because we are using already made objects which may have things unique to them
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        pfpColor: z.string(),
+      })
+    )
+    .min(1, "Paid by can't be empty"),
   expenseTime: z.date(),
 });
 
@@ -56,7 +65,7 @@ export default function AddExpenseForm({
     expenseWith: [],
     amount: 0,
     description: "",
-    paidBy: "",
+    paidBy: [],
     expenseTime: new Date(),
   });
   const [errors, setErrors] = useState<ExpenseErrors>({ _errors: [] });
@@ -144,11 +153,14 @@ export default function AddExpenseForm({
       <div className="flex flex-wrap justify-between gap-2 py-2">
         <Label htmlFor="paidBy-input">Paid By</Label>
         <Select
-          value={expense.paidBy}
+          value={expense.paidBy[0]?.id || ""}
           onValueChange={(e) => {
+            const paidBy = expense.expenseWith.find(
+              (ew) => ew.id === e.valueOf()
+            );
             setExpense((prevExpense) => ({
               ...prevExpense,
-              paidBy: e.valueOf(),
+              paidBy: paidBy ? [paidBy] : [],
             }));
           }}
         >
