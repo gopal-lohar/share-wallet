@@ -23,7 +23,7 @@ export interface UserDetails {
 
 export interface Transaction {
   _id: string;
-  createdBy: string;
+  createdBy: Friend;
   borrower: Friend;
   lender: Friend;
   amount: number;
@@ -43,6 +43,6 @@ export type Expense = {
   expenseWith: Friend[];
   amount: number;
   description: string;
-  paidBy: "me" | Friend;
+  paidBy: Friend;
   expenseTime: Date;
 };

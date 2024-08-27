@@ -28,33 +28,26 @@ import {
 import { cn, getPfpColor } from "@/lib/utils";
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { Friend } from "@/types/types";
+import { createTransactions } from "./create-transactions";
+import ProfilePic from "./ProfilePic";
+
+const friendSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  pfpColor: z.string(),
+});
 
 export const expenseSchema = z.object({
   expenseWith: z
-    .array(
-      z.object({
-        id: z.string(),
-        name: z.string(),
-        pfpColor: z.string(),
-      })
-    )
+    .array(friendSchema)
     .min(1, "There should be at least one friend"),
+  paidBy: z.array(friendSchema).min(1, "Paid by can't be empty"), //it's safe to use array here because we are using already made objects which may have things unique to them
   amount: z.number().positive("Amount should be Greater than 0"),
   description: z.string(),
-  paidBy: z
-    .array(
-      //it's safe to use array here because we are using already made objects which may have things unique to them
-      z.object({
-        id: z.string(),
-        name: z.string(),
-        pfpColor: z.string(),
-      })
-    )
-    .min(1, "Paid by can't be empty"),
   expenseTime: z.date(),
 });
 
-type Expense = z.infer<typeof expenseSchema>;
+export type Expense = z.infer<typeof expenseSchema>;
 type ExpenseErrors = ZodFormattedError<Expense>;
 export default function AddExpenseForm({
   closeDialogue,
@@ -62,8 +55,8 @@ export default function AddExpenseForm({
   closeDialogue: () => void;
 }) {
   const [expense, setExpense] = useState<Expense>({
-    expenseWith: [],
-    amount: 0,
+    expenseWith: [{ id: "me", name: "Me", pfpColor: getPfpColor("Me") }],
+    amount: 10,
     description: "",
     paidBy: [],
     expenseTime: new Date(),
@@ -78,7 +71,11 @@ export default function AddExpenseForm({
         const result = expenseSchema.safeParse(expense);
         if (result.success) {
           setErrors({ _errors: [] });
-          console.log("Form submitted successfully", expense);
+          // console.log("Form submitted successfully", expense);
+          createTransactions(
+            { id: "me", name: "Me", pfpColor: getPfpColor("Me") },
+            expense
+          );
           // closeDialogue();
         } else {
           const formattedErrors = result.error.format();
@@ -168,7 +165,6 @@ export default function AddExpenseForm({
             <SelectValue placeholder="Paid By" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="me">Me</SelectItem>
             {expense.expenseWith.map((friend) => (
               <SelectItem key={friend.id} value={friend.id}>
                 {friend.name}
@@ -264,12 +260,18 @@ function AddExpenseWith({
         <Badge
           key={friend.id}
           variant="outline"
-          className="h-9 rounded-full p-1 pl-2"
+          className="flex h-9 items-center gap-1 rounded-full bg-secondary p-1"
         >
+          <ProfilePic
+            color={friend.pfpColor}
+            letter={friend.name[0]}
+            className="size-6 text-sm"
+          />
           {friend.name}
           <Button
+            disabled={friend.id === "me"}
             variant="secondary"
-            className="relative ml-1 flex size-6 shrink-0 items-center justify-center rounded-full p-0"
+            className="relative flex size-6 shrink-0 items-center justify-center rounded-full p-0"
             onClick={(e) => {
               e.preventDefault();
               setExpenseWith(
