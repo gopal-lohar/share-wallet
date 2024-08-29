@@ -74,7 +74,6 @@ export default function AddExpenseForm({
         const result = expenseSchema.safeParse(expense);
         if (result.success) {
           setErrors({ _errors: [] });
-          console.log("Form submitted successfully", expense);
           const transactions = createTransactions(
             { id: "me", name: "Me", pfpColor: getPfpColor("Me") },
             expense
@@ -91,7 +90,6 @@ export default function AddExpenseForm({
         } else {
           const formattedErrors = result.error.format();
           setErrors(formattedErrors);
-          console.log("Error", formattedErrors);
         }
       }}
     >

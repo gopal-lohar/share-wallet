@@ -22,7 +22,7 @@ export default function Transactions() {
   const windowWidth = useWidth();
   if (windowWidth && windowWidth > 640) {
     return (
-      <div className="h-full min-h-[70vh] w-full rounded-lg border">
+      <div className="h-full min-h-[60vh] w-full rounded-lg border">
         <div className="h-full w-full">
           <div className="inline-flex h-10 w-full items-center justify-center rounded-md rounded-b-none border-b p-1">
             <div className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium">
@@ -47,7 +47,7 @@ export default function Transactions() {
     );
   }
   return (
-    <div className="h-full min-h-[70vh] w-full rounded-lg border">
+    <div className="h-full min-h-[60vh] w-full rounded-lg border">
       <Tabs defaultValue="borrowed" className="h-full w-full">
         <TabsList className="w-full rounded-b-none">
           <TabsTrigger value="borrowed" className="w-full">
@@ -82,10 +82,8 @@ function TransactionsList({ type }: { type: "borrowed" | "lended" }) {
     }
   });
 
-  console.log(transactions);
-
   return (
-    <div className="h-full divide-y overflow-auto px-2">
+    <div className="h-[60vh] divide-y overflow-auto px-2">
       {transactions.map((transaction) => {
         return (
           <TransactionListItem

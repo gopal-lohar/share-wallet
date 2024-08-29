@@ -9,8 +9,6 @@ import { getServerSession } from "next-auth";
 export async function createUser(data: any) {
   await connectDB();
   const { user } = data;
-  console.log("data", data);
-  console.log("user", user);
   const id = user.id;
   const name = user.name;
   const email = user.email;

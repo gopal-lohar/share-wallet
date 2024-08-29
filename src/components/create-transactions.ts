@@ -18,6 +18,5 @@ export function createTransactions(createdBy: Friend, expense: Expense) {
       editedAt: expense.expenseTime.toISOString(),
     });
   }
-  console.log(transactions);
   return transactions;
 }
