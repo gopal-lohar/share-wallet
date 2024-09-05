@@ -14,10 +14,9 @@ import {
 import { Friend as OriginalFriend } from "@/types/types";
 import ProfilePic from "@/components/ProfilePic";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, PlusIcon } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import useLocalStorage from "@/hooks/useLocalStorage";
-import { useContext, useEffect } from "react";
+import { useContext, useState } from "react";
 import AppModeContext from "@/context/AppModeContext";
 import { AddFriend } from "./_components/AddFriend";
 
@@ -29,10 +28,7 @@ export default function UsersPage() {
   const router = useRouter();
   const appMode = useContext(AppModeContext);
 
-  const [friends, setFriends] = useLocalStorage<FriendClient[]>(
-    "LOCAL_FRIENDS",
-    []
-  );
+  const [friends, setFriends] = useState<FriendClient[]>([]);
 
   return (
     <div className="mx-auto w-full max-w-screen-md px-2">
