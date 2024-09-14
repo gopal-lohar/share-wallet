@@ -7,7 +7,7 @@ import { UserBalance } from "@/components/Balance";
 import TransactionsContextProvider from "@/context/TransactionsContextProvider";
 import AddExpenseDialog from "./AddExpenseDialog";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function Dashboard({
   transactionsProp,
@@ -15,6 +15,7 @@ export default function Dashboard({
   transactionsProp: Transaction[] | null;
 }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  useEffect(() => {}, []);
   return (
     // height = 100vh - nav height
     <div className="h-[calc(100vh-4rem)] w-full overflow-auto">

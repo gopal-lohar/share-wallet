@@ -16,17 +16,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PlusIcon } from "lucide-react";
-import { FriendClient } from "../page";
 import { useState } from "react";
 import ProfilePic from "@/components/ProfilePic";
 import { getPfpColor } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { Friend } from "@/types/types";
 
 export function AddFriend({
   setFriends,
 }: {
-  setFriends: React.Dispatch<React.SetStateAction<FriendClient[]>>;
+  setFriends: React.Dispatch<React.SetStateAction<Friend[]>>;
 }) {
   const [name, setName] = useState("");
   const [pfpHue, setPfpHue] = useState(60);
