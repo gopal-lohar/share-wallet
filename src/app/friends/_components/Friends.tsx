@@ -17,31 +17,26 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
-import UserModeContext from "@/context/UserModeContext";
 import { AddFriend } from "./AddFriend";
 import { localStorageKeys } from "@/lib/local-storage-keys";
 
 export default function Friends() {
   const isFirstLoad = useRef(true);
   const router = useRouter();
-  const userMode = useContext(UserModeContext);
   const [friends, setFriends] = useState<Friend[]>([]);
 
-  useEffect(() => {
-    if (isFirstLoad.current) {
-      isFirstLoad.current = false;
-      if (userMode === "offline") {
-        const storedFriends = localStorage.getItem(localStorageKeys.friends);
-        if (storedFriends) {
-          setFriends(JSON.parse(storedFriends));
-        }
-      }
-    } else {
-      if (userMode === "offline") {
-        localStorage.setItem(localStorageKeys.friends, JSON.stringify(friends));
-      }
-    }
-  }, [friends, userMode]);
+  // useEffect(() => {
+  //   if (isFirstLoad.current) {
+  //     isFirstLoad.current = false;
+  //       const storedFriends = localStorage.getItem(localStorageKeys.friends);
+  //       if (storedFriends) {
+  //         setFriends(JSON.parse(storedFriends));
+  //       }
+  //
+  //   } else {
+  //       localStorage.setItem(localStorageKeys.friends, JSON.stringify(friends));
+  //   }
+  // }, [friends, userMode]);
 
   return (
     <div className="mx-auto w-full max-w-screen-md px-2">
@@ -68,7 +63,8 @@ export default function Friends() {
         <AddFriend setFriends={setFriends} />
       </div>
       <div className="mx-auto flex max-w-screen-md flex-col gap-2">
-        {userMode ? (
+        {/* TODO: edit */}
+        {true ? (
           friends.map((friend) => (
             <div
               key={friend.id}
