@@ -24,12 +24,12 @@ export function ModeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="px-2 sm:pr-3 gap-2 rounded-full">
+        <Button variant="outline" className="gap-2 rounded-full px-2 sm:pr-3">
           <div className="relative size-6">
-            <Sun className="size-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 absolute" />
+            <Sun className="absolute size-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
             <Moon className="absolute size-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           </div>
-          <span className="hidden sm:inline-block text">{themeName}</span>
+          <span className="text hidden sm:inline-block">{themeName}</span>
           <span className="sr-only -translate-y-0.5">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>

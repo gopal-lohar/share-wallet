@@ -16,29 +16,30 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
+import UserContext from "@/context/UserContext";
 
 export default function Transactions() {
   const windowWidth = useWidth();
   if (windowWidth && windowWidth > 640) {
     return (
-      <div className="w-full rounded-lg border h-full min-h-[70vh]">
-        <div className="w-full h-full">
-          <div className="inline-flex h-10 items-center justify-center rounded-md border-b p-1 w-full rounded-b-none">
-            <div className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium w-full">
-              You Owe
+      <div className="h-full min-h-[60vh] w-full rounded-lg border">
+        <div className="h-full w-full">
+          <div className="inline-flex h-10 w-full items-center justify-center rounded-md rounded-b-none border-b p-1">
+            <div className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium">
+              Borrowed
             </div>
-            <div className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium w-full">
-              You are Owed
+            <div className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium">
+              Lended
             </div>
           </div>
           {/* 100% - OweOwed title height - extra space at bottom to make separator look good */}
-          <div className="flex divide-x h-[calc(100%-2.5rem-0.5rem)]">
+          <div className="flex h-[calc(100%-2.5rem-0.5rem)] divide-x">
             {/* 100% - margin compansation */}
-            <div className="w-full mt-2 h-[100%-0.5rem]">
-              <TransactionsList type="owe" />
+            <div className="mt-2 h-[100%-0.5rem] w-full">
+              <TransactionsList type="borrowed" />
             </div>
-            <div className="w-full mt-2 h-[100%-0.5rem]">
-              <TransactionsList type="owed" />
+            <div className="mt-2 h-[100%-0.5rem] w-full">
+              <TransactionsList type="lended" />
             </div>
           </div>
         </div>
@@ -46,39 +47,48 @@ export default function Transactions() {
     );
   }
   return (
-    <div className="w-full rounded-lg border h-full min-h-[70vh]">
-      <Tabs defaultValue="owe" className="w-full h-full">
+    <div className="h-full min-h-[60vh] w-full rounded-lg border">
+      <Tabs defaultValue="borrowed" className="h-full w-full">
         <TabsList className="w-full rounded-b-none">
-          <TabsTrigger value="owe" className="w-full">
-            You Owe
+          <TabsTrigger value="borrowed" className="w-full">
+            Borrowed
           </TabsTrigger>
-          <TabsTrigger value="owed" className="w-full">
-            You are Owed
+          <TabsTrigger value="lended" className="w-full">
+            Lended
           </TabsTrigger>
         </TabsList>
         {/* 100% - tab trigger height - margin top */}
-        <TabsContent className="h-[calc(100%-2.5rem-0.5rem)]" value="owe">
-          <TransactionsList type="owe" />
+        <TabsContent className="h-[calc(100%-2.5rem-0.5rem)]" value="borrowed">
+          <TransactionsList type="borrowed" />
         </TabsContent>
-        <TabsContent className="h-[calc(100%-2.5rem-0.5rem)]" value="owed">
-          <TransactionsList type="owed" />
+        <TabsContent className="h-[calc(100%-2.5rem-0.5rem)]" value="lended">
+          <TransactionsList type="lended" />
         </TabsContent>
       </Tabs>
     </div>
   );
 }
 
-function TransactionsList({ type }: { type: "owe" | "owed" }) {
-  const { transactions } = useContext(TransactionsContext);
-  const owesMoney = type === "owe";
+function TransactionsList({ type }: { type: "borrowed" | "lended" }) {
+  let { transactions } = useContext(TransactionsContext);
+  let user = useContext(UserContext);
+  user = user?.pfpColour ? { ...user, id: "me", name: "Me" } : user;
+  transactions = transactions.filter((transaction) => {
+    if (user?.id === undefined) return false;
+    if (transaction.borrower.id === user.id) {
+      return type === "borrowed";
+    } else if (transaction.lender.id === user.id) {
+      return type === "lended";
+    }
+  });
+
   return (
-    <div className="px-2 h-full overflow-auto divide-y">
+    <div className="h-[60vh] divide-y overflow-auto px-2">
       {transactions.map((transaction) => {
-        if (owesMoney !== transaction.owesMoney) return "";
         return (
           <TransactionListItem
             transaction={transaction}
-            owesMoney={owesMoney}
+            transactionType={type}
             key={transaction._id}
           />
         );
@@ -89,25 +99,24 @@ function TransactionsList({ type }: { type: "owe" | "owed" }) {
 
 function TransactionListItem({
   transaction,
-  owesMoney,
+  transactionType,
 }: {
   transaction: Transaction;
-  owesMoney: boolean;
+  transactionType: "borrowed" | "lended";
 }) {
   const { deleteTransaction } = useContext(TransactionsContext);
+  const friend =
+    transactionType === "borrowed" ? transaction.lender : transaction.borrower;
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="w-full rounded-none gap-4 items-center p-2 py-3 h-auto"
+          className="h-auto w-full items-center gap-4 rounded-none p-2 py-3"
         >
-          <ProfilePic
-            letter={transaction.friend.name[0]}
-            color={transaction.friend.pfpColor}
-          />
-          <span>{transaction.friend.name}</span>
-          <span className="text-xl ml-auto text-muted-foreground font-semibold">
+          <ProfilePic letter={friend.name[0]} color={friend.pfpColor} />
+          <span>{friend.name}</span>
+          <span className="ml-auto text-xl font-semibold text-muted-foreground">
             &#8377;{transaction.amount}
           </span>
         </Button>
@@ -116,31 +125,31 @@ function TransactionListItem({
         <DialogHeader>
           <DialogTitle>Transaction Details</DialogTitle>
           <DialogDescription>
-            {owesMoney
-              ? `You Owe ${transaction.friend.name}`
-              : `${transaction.friend.name} Owes You`}{" "}
+            {transactionType === "borrowed"
+              ? `You Owe ${friend.name}`
+              : `${friend.name} Owes You`}{" "}
             &#8377;{transaction.amount}
           </DialogDescription>
           <div className="grid gap-4 py-4">
             <div>
-              <div className="text-muted-foreground text-sm">Amount</div>
+              <div className="text-sm text-muted-foreground">Amount</div>
               <div>{transaction.amount}</div>
             </div>
             <div>
-              <div className="text-muted-foreground text-sm">Description</div>
+              <div className="text-sm text-muted-foreground">Description</div>
               <div>{transaction.description}</div>
             </div>
             <div>
-              <div className="text-muted-foreground text-sm">Created By</div>
-              <div>{transaction.createdBy}</div>
+              <div className="text-sm text-muted-foreground">Created By</div>
+              <div>{transaction.createdBy.name}</div>
             </div>
             <div>
-              <div className="text-muted-foreground text-sm">Created At</div>
+              <div className="text-sm text-muted-foreground">Created At</div>
               <div>{new Date(transaction.createdAt).toLocaleString()}</div>
             </div>
           </div>
         </DialogHeader>
-        <DialogFooter className="gap-4 flex-col sm:justify-between sm:gap-2">
+        <DialogFooter className="flex-col gap-4 sm:justify-between sm:gap-2">
           <Button
             variant="destructive"
             onClick={(e) => {
@@ -149,7 +158,7 @@ function TransactionListItem({
           >
             Delete
           </Button>
-          <DialogClose>
+          <DialogClose asChild>
             <Button variant="outline">Close</Button>
           </DialogClose>
         </DialogFooter>

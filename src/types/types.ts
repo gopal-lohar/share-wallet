@@ -1,22 +1,39 @@
 export interface UserDetails {
-  googleId: string;
+  id: string;
   name: string;
   email: string;
   pfpColour: string;
 }
 
+// export interface Transaction {
+//   _id: string;
+//   createdBy: string;
+//   borrower: Friend;
+//   lender: Friend;
+//   amount: number;
+//   description: string;
+//   createdAt: string; // remove this and use createdAt and EditedAt instead
+// }
+
+// export interface Friend {
+//   id: string;
+//   name: string;
+//   pfpColor: string;
+// }
+
 export interface Transaction {
   _id: string;
-  createdBy: string;
-  friend: Friend;
+  createdBy: Friend;
+  borrower: Friend;
+  lender: Friend;
   amount: number;
-  owesMoney: boolean; // if current user owes money to friend
   description: string;
-  createdAt: string; // remove this and use createdAt and EditedAt instead
+  createdAt: string;
+  editedAt: string;
 }
 
-interface Friend {
-  googleId: string;
+export interface Friend {
+  id: string;
   name: string;
   pfpColor: string;
 }
@@ -26,6 +43,6 @@ export type Expense = {
   expenseWith: Friend[];
   amount: number;
   description: string;
-  paidBy: "me" | Friend;
+  paidBy: Friend;
   expenseTime: Date;
 };

@@ -1,12 +1,15 @@
 import { useContext } from "react";
 
 import TransactionsContext from "@/context/TransactionsContext";
+import UserContext from "@/context/UserContext";
 
 export function UserBalance() {
   const { transactions } = useContext(TransactionsContext);
+  const user = useContext(UserContext);
+
   const { owe, owed } = transactions.reduce(
     (acc, transactions) => {
-      if (transactions.owesMoney) {
+      if (user?.id && transactions.borrower.id === user.id) {
         acc.owe += transactions.amount;
       } else {
         acc.owed += transactions.amount;
@@ -20,22 +23,11 @@ export function UserBalance() {
   );
 
   return (
-    <div className="w-full flex flex-col sm:flex-row gap-2 sm:gap-4">
-      <UserBalanceCard title="Total Balance">
-        {owed - owe || (
-          <div className="h-6 w-20 animate-pulse bg-secondary rounded-full my-1"></div>
-        )}
-      </UserBalanceCard>
-      <UserBalanceCard title="You Owe">
-        {owe || (
-          <div className="h-6 w-20 animate-pulse bg-secondary rounded-full my-1"></div>
-        )}
-      </UserBalanceCard>
-      <UserBalanceCard title="You are Owed">
-        {owed || (
-          <div className="h-6 w-20 animate-pulse bg-secondary rounded-full my-1"></div>
-        )}
-      </UserBalanceCard>
+    <div className="flex w-full flex-col gap-2 sm:flex-row sm:gap-4">
+      <UserBalanceCard title="Total Balance">{owed - owe}</UserBalanceCard>
+      <UserBalanceCard title="You Owe">{owe}</UserBalanceCard>
+      <UserBalanceCard title="You are Owed">{owed}</UserBalanceCard>
+      {/* <div className="my-1 h-6 w-20 animate-pulse rounded-full bg-secondary"></div> */}
     </div>
   );
 }
@@ -48,10 +40,10 @@ function UserBalanceCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-lg border bg-transparent shadow w-full sm:min-w-[10rem]">
-      <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2 pt-4">
-        <h3 className="tracking-tight text-sm font-medium">{title}</h3>
-        <span className=" text-muted-foreground">&#8377;</span>
+    <div className="w-full rounded-lg border bg-transparent shadow sm:min-w-[10rem]">
+      <div className="flex flex-row items-center justify-between space-y-0 p-6 pb-2 pt-4">
+        <h3 className="text-sm font-medium tracking-tight">{title}</h3>
+        <span className="text-muted-foreground">&#8377;</span>
       </div>
       <div className="p-6 pt-0">
         <div className="text-2xl font-bold">{children}</div>

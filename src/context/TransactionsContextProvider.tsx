@@ -1,21 +1,19 @@
 "use client";
 
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { Transaction } from "@/types/types";
 import TransactionsContext from "@/context/TransactionsContext";
-import UserContext from "@/context/UserContext";
-import { tempTransactions } from "@/lib/temp/transactions";
 
 export default function TransactionsContextProvider({
   children,
-  data,
+  transactions,
+  setTransactions,
 }: {
   children: React.ReactNode;
-  data: Transaction[];
+  transactions: Transaction[];
+  setTransactions: React.Dispatch<React.SetStateAction<Transaction[]>>;
 }) {
-  const user = useContext(UserContext);
-  const [transactions, setTransactions] = useState<Transaction[]>(data);
   const deleteTransaction = useCallback(
     (id: string) => {
       setTransactions((prevTransactions) => {
@@ -24,13 +22,18 @@ export default function TransactionsContextProvider({
     },
     [setTransactions]
   );
-  useEffect(() => {
-    if (!user) {
-      setTransactions(tempTransactions);
-    }
-  }, [user]);
+  const addTransaction = useCallback(
+    (transaction: Transaction) => {
+      setTransactions((prevTransactions) => {
+        return [transaction, ...prevTransactions];
+      });
+    },
+    [setTransactions]
+  );
   return (
-    <TransactionsContext.Provider value={{ transactions, deleteTransaction }}>
+    <TransactionsContext.Provider
+      value={{ transactions, deleteTransaction, addTransaction }}
+    >
       {children}
     </TransactionsContext.Provider>
   );

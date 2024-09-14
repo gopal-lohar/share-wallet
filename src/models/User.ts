@@ -1,14 +1,14 @@
 import mongoose, { Model, Document } from "mongoose";
 
 interface UserSchemaInterface extends Document {
-  googleId: string;
+  id: string;
   name: string;
   email: string;
   pfpColour: string;
 }
 const userSchema = new mongoose.Schema<UserSchemaInterface>(
   {
-    googleId: {
+    id: {
       type: String,
       required: true,
       unique: true,

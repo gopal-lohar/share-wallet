@@ -8,13 +8,13 @@ import ShareWalletIcon from "./ShareWalletIcon";
 export default function Counter() {
   const [counter, setCounter] = useState(0);
   return (
-    <div className="flex flex-col gap-4 w-max border rounded-md">
-      <div className="h-10 flex items-center gap-4 px-4 mt-2">
+    <div className="flex w-max flex-col gap-4 rounded-md border">
+      <div className="mt-2 flex h-10 items-center gap-4 px-4">
         <div className="flex items-center gap-4">
           <ShareWalletIcon />
           Share Wallet
         </div>
-        <Button variant="ghost" className="size-8 ml-auto p-0">
+        <Button variant="ghost" className="ml-auto size-8 p-0">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24px"
@@ -26,7 +26,7 @@ export default function Counter() {
           </svg>
         </Button>
       </div>
-      <div className="flex gap-4 items-center px-4">
+      <div className="flex items-center gap-4 px-4">
         <Button
           variant="outline"
           onClick={() => {
@@ -35,7 +35,7 @@ export default function Counter() {
         >
           Decrease
         </Button>
-        <div className="size-10 flex items-center justify-center border rounded-md">
+        <div className="flex size-10 items-center justify-center rounded-md border">
           {counter}
         </div>
         <Button

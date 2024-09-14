@@ -1,3 +1,7 @@
+export default function Test() {
+  return "";
+}
+/*
 import { useEffect, useState } from "react";
 import { Check, PlusIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -18,7 +22,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
-type Friend = { _id: string; googleId: string; name: string };
+type Friend = { _id: string; id: string; name: string };
 
 export default function AddExpenseWith({
   expense,
@@ -53,24 +57,23 @@ export default function AddExpenseWith({
   }, [searchQuery]);
 
   return (
-    <div className="flex gap-2 flex-wrap">
+    <div className="flex flex-wrap gap-2">
       {expense.expenseWith.map((friend) => (
         <Badge
-          key={friend.googleId}
+          key={friend.id}
           variant="outline"
-          className="p-1 pl-2 rounded-full h-9"
+          className="h-9 rounded-full p-1 pl-2"
         >
           {friend.name}
           <Button
             variant="secondary"
-            className="size-6 rounded-full flex items-center justify-center shrink-0 p-0 relative ml-1"
+            className="relative ml-1 flex size-6 shrink-0 items-center justify-center rounded-full p-0"
             onClick={(e) => {
               e.preventDefault();
               setExpense((prevExpense) => ({
                 ...prevExpense,
                 expenseWith: prevExpense.expenseWith.filter(
-                  (expenseWithFriend) =>
-                    expenseWithFriend.googleId !== friend.googleId
+                  (expenseWithFriend) => expenseWithFriend.id !== friend.id
                 ),
               }));
             }}
@@ -82,7 +85,7 @@ export default function AddExpenseWith({
 
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" className="rounded-full size-9 p-0">
+          <Button variant="outline" className="size-9 rounded-full p-0">
             <PlusIcon />
           </Button>
         </PopoverTrigger>
@@ -109,12 +112,11 @@ export default function AddExpenseWith({
                 {optionsResponse.data &&
                   optionsResponse.data.map((friend: Friend) => {
                     const isSelected = expense.expenseWith.some(
-                      (friendInExpense) =>
-                        friendInExpense.googleId === friend.googleId
+                      (friendInExpense) => friendInExpense.id === friend.id
                     );
                     return (
                       <CommandItem
-                        key={friend.googleId}
+                        key={friend.id}
                         value={friend.name}
                         onSelect={() => {
                           if (isSelected) return;
@@ -146,3 +148,4 @@ export default function AddExpenseWith({
     </div>
   );
 }
+*/

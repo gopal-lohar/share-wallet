@@ -3,13 +3,12 @@
 import { connectDB } from "@/lib/mongodb";
 import Transaction from "@/models/Transaction";
 import User from "@/models/User";
-import { Transaction as TransactionType } from "@/types/types";
 import { getServerSession } from "next-auth";
 import { z, ZodError } from "zod";
 
 const transactionSchema = z.object({
   friend: z.object({
-    googleId: z.string(),
+    id: z.string(),
     name: z.string(),
     pfpColor: z.string(),
   }),
