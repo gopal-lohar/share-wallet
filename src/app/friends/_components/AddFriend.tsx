@@ -24,8 +24,10 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { Friend } from "@/types/types";
 
 export function AddFriend({
+  server,
   setFriends,
 }: {
+  server: boolean;
   setFriends: React.Dispatch<React.SetStateAction<Friend[]>>;
 }) {
   const [name, setName] = useState("");
