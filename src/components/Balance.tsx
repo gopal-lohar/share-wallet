@@ -5,6 +5,7 @@ import UserContext from "@/context/UserContext";
 
 export function UserBalance() {
   const { transactions } = useContext(TransactionsContext);
+  console.log("transactions in userbalance: ", transactions);
   const user = useContext(UserContext);
 
   const { owe, owed } = transactions.reduce(

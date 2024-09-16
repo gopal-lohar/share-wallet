@@ -49,7 +49,7 @@ export default function Friends({
         localStorage.setItem(localStorageKeys.friends, JSON.stringify(friends));
       }
     }
-  }, [friends]);
+  }, [friends, friendsProps, user]);
 
   return (
     <div className="mx-auto w-full max-w-screen-md px-2">

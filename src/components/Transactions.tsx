@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import useWidth from "@/hooks/useWidth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -70,21 +70,23 @@ export default function Transactions() {
 }
 
 function TransactionsList({ type }: { type: "borrowed" | "lended" }) {
-  let { transactions } = useContext(TransactionsContext);
-  let user = useContext(UserContext);
-  user = user?.pfpColour ? { ...user, id: "me", name: "Me" } : user;
-  transactions = transactions.filter((transaction) => {
-    if (user?.id === undefined) return false;
-    if (transaction.borrower.id === user.id) {
+  const { transactions } = useContext(TransactionsContext);
+  const user = useContext(UserContext);
+  const computedUser = user
+    ? { ...user }
+    : { id: "me", name: "Me", pfpColor: "blue" };
+  const fileteredTransactions = transactions.filter((transaction) => {
+    if (!computedUser) return false;
+    if (transaction.borrower.id === computedUser.id) {
       return type === "borrowed";
-    } else if (transaction.lender.id === user.id) {
+    } else if (transaction.lender.id === computedUser.id) {
       return type === "lended";
     }
   });
 
   return (
     <div className="h-[60vh] divide-y overflow-auto px-2">
-      {transactions.map((transaction) => {
+      {fileteredTransactions.map((transaction) => {
         return (
           <TransactionListItem
             transaction={transaction}

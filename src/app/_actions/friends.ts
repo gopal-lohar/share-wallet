@@ -1,11 +1,10 @@
 import { Friend } from "@/types/types";
 import { getUserData } from "./users";
-import { revalidatePath } from "next/cache";
 
 export async function getFriends(): Promise<Friend[] | null> {
   const user = await getUserData();
   if (!user) return null;
-  console.log(user);
+
   return [
     {
       id: "1726425716722-19057104119", //string id
@@ -29,6 +28,4 @@ export async function removeFriend(friendId: string) {
   const user = await getUserData();
   if (!user) return null;
   // remove friend
-
-  revalidatePath("/friends");
 }
