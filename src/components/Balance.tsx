@@ -5,29 +5,30 @@ import UserContext from "@/context/UserContext";
 
 export function UserBalance() {
   const { transactions } = useContext(TransactionsContext);
-  console.log("transactions in userbalance: ", transactions);
   const user = useContext(UserContext);
+  const computedUser = user
+    ? { ...user }
+    : { id: "me", name: "Me", pfpColor: "blue" };
 
-  const { owe, owed } = transactions.reduce(
-    (acc, transactions) => {
-      if (user?.id && transactions.borrower.id === user.id) {
-        acc.owe += transactions.amount;
-      } else {
-        acc.owed += transactions.amount;
+  const { borrowed, lended } = transactions.reduce(
+    (acc, transaction) => {
+      if (transaction.lender.id === computedUser.id) {
+        acc.lended += transaction.amount;
+      } else if (transaction.borrower.id === computedUser.id) {
+        acc.borrowed += transaction.amount;
       }
       return acc;
     },
-    {
-      owe: 0,
-      owed: 0,
-    }
+    { borrowed: 0, lended: 0 }
   );
 
   return (
     <div className="flex w-full flex-col gap-2 sm:flex-row sm:gap-4">
-      <UserBalanceCard title="Total Balance">{owed - owe}</UserBalanceCard>
-      <UserBalanceCard title="You Owe">{owe}</UserBalanceCard>
-      <UserBalanceCard title="You are Owed">{owed}</UserBalanceCard>
+      <UserBalanceCard title="Total Balance">
+        {lended - borrowed}
+      </UserBalanceCard>
+      <UserBalanceCard title="Borrowed">{borrowed}</UserBalanceCard>
+      <UserBalanceCard title="Lended">{lended}</UserBalanceCard>
       {/* <div className="my-1 h-6 w-20 animate-pulse rounded-full bg-secondary"></div> */}
     </div>
   );
