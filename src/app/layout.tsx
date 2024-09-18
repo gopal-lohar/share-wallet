@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getServerSession } from "next-auth";
 import SessionProvider from "./components/SessionProvider";
-import UserModeContextProvider from "@/context/UserModeContextProvider";
 import UserContextProvider from "@/context/UserContextProvider";
 import { getUserData } from "./_actions/users";
 import Navbar from "@/components/Navbar";
@@ -39,14 +38,12 @@ export default async function RootLayout({
       >
         <div>
           <UserContextProvider user={user}>
-            <UserModeContextProvider user={user}>
-              <ThemeProvider>
-                <SessionProvider session={session}>
-                  <Navbar />
-                  {children}
-                </SessionProvider>
-              </ThemeProvider>
-            </UserModeContextProvider>
+            <ThemeProvider>
+              <SessionProvider session={session}>
+                <Navbar />
+                {children}
+              </SessionProvider>
+            </ThemeProvider>
           </UserContextProvider>
         </div>
       </body>

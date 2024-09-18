@@ -7,7 +7,9 @@ import { UserBalance } from "@/components/Balance";
 import TransactionsContextProvider from "@/context/TransactionsContextProvider";
 import AddExpenseDialog from "./AddExpenseDialog";
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import UserContext from "@/context/UserContext";
+import { localStorageKeys } from "@/lib/local-storage-keys";
 
 export default function Dashboard({
   transactionsProp,
@@ -15,13 +17,41 @@ export default function Dashboard({
   transactionsProp: Transaction[] | null;
 }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  useEffect(() => {}, []);
+
+  const isFirstLoad = useRef(true);
+  const user = useContext(UserContext);
+
+  useEffect(() => {
+    if (isFirstLoad.current) {
+      isFirstLoad.current = false;
+      if (user) {
+        transactionsProp && setTransactions(transactionsProp);
+      } else {
+        const storedTransactions = localStorage.getItem(
+          localStorageKeys.transactions
+        );
+        if (storedTransactions) {
+          console.log(transactions);
+          console.log(storedTransactions);
+          setTransactions(JSON.parse(storedTransactions));
+        }
+      }
+    } else {
+      if (!user) {
+        localStorage.setItem(
+          localStorageKeys.transactions,
+          JSON.stringify(transactions)
+        );
+      }
+    }
+  }, [transactions, transactionsProp, user]);
+
   return (
     // height = 100vh - nav height
     <div className="h-[calc(100vh-4rem)] w-full overflow-auto">
       <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 p-2 sm:py-4">
         <TransactionsContextProvider
-          transactions={transactions || []}
+          transactions={transactions}
           setTransactions={setTransactions}
         >
           <DashboardHeader />

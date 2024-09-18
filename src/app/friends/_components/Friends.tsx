@@ -17,31 +17,39 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
-import UserModeContext from "@/context/UserModeContext";
 import { AddFriend } from "./AddFriend";
 import { localStorageKeys } from "@/lib/local-storage-keys";
+import UserContext from "@/context/UserContext";
+import { removeFriend } from "@/app/_actions/friends";
 
-export default function Friends() {
+export default function Friends({
+  friendsProps,
+}: {
+  friendsProps: Friend[] | null;
+}) {
   const isFirstLoad = useRef(true);
   const router = useRouter();
-  const userMode = useContext(UserModeContext);
   const [friends, setFriends] = useState<Friend[]>([]);
+  const user = useContext(UserContext);
 
   useEffect(() => {
     if (isFirstLoad.current) {
       isFirstLoad.current = false;
-      if (userMode === "offline") {
+      if (user) {
+        friendsProps && setFriends(friendsProps);
+      } else {
         const storedFriends = localStorage.getItem(localStorageKeys.friends);
         if (storedFriends) {
+          console.log(storedFriends);
           setFriends(JSON.parse(storedFriends));
         }
       }
     } else {
-      if (userMode === "offline") {
+      if (!user) {
         localStorage.setItem(localStorageKeys.friends, JSON.stringify(friends));
       }
     }
-  }, [friends, userMode]);
+  }, [friends, friendsProps, user]);
 
   return (
     <div className="mx-auto w-full max-w-screen-md px-2">
@@ -65,36 +73,34 @@ export default function Friends() {
             Friends
           </h2>
         </div>
-        <AddFriend setFriends={setFriends} />
+        <AddFriend server={user ? true : false} setFriends={setFriends} />
       </div>
       <div className="mx-auto flex max-w-screen-md flex-col gap-2">
-        {userMode ? (
-          friends.map((friend) => (
-            <div
-              key={friend.id}
-              className="flex items-center gap-2 rounded-lg border p-4"
-            >
-              <ProfilePic letter={friend.name[0]} color={friend.pfpColor} />
-              <p className="font-semibold text-muted-foreground">
-                {friend.name}
-              </p>
-              <RemoveFirendButton setFriends={setFriends} friend={friend} />
-            </div>
-          ))
-        ) : (
-          <div className="flex items-center justify-center py-20">
-            <div className="size-10 animate-spin rounded-full border-4 border-muted border-t-primary"></div>
+        {friends.map((friend) => (
+          <div
+            key={friend.id}
+            className="flex items-center gap-2 rounded-lg border p-4"
+          >
+            <ProfilePic letter={friend.name[0]} color={friend.pfpColor} />
+            <p className="font-semibold text-muted-foreground">{friend.name}</p>
+            <RemoveFirendButton
+              server={user ? true : false}
+              setFriends={setFriends}
+              friend={friend}
+            />
           </div>
-        )}
+        ))}
       </div>
     </div>
   );
 }
 
 function RemoveFirendButton({
+  server,
   friend,
   setFriends,
 }: {
+  server: boolean;
   friend: Friend;
   setFriends: React.Dispatch<React.SetStateAction<Friend[]>>;
 }) {
@@ -117,6 +123,9 @@ function RemoveFirendButton({
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
+              if (server) {
+                removeFriend(friend.id);
+              }
               setFriends((prev: any) =>
                 prev.filter((f: any) => f.id !== friend.id)
               );
