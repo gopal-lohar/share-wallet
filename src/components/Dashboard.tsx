@@ -49,7 +49,7 @@ export default function Dashboard({
   return (
     // height = 100vh - nav height
     <div className="h-[calc(100vh-4rem)] w-full overflow-auto">
-      <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 p-2 sm:py-4">
+      <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 p-2 py-4">
         <TransactionsContextProvider
           transactions={transactions}
           setTransactions={setTransactions}
@@ -70,11 +70,9 @@ function DashboardHeader() {
         Dashboard
       </h2>
       <div className="ml-auto flex w-full gap-2 sm:w-max">
-        <Link href="/friends">
-          <Button className="w-full sm:w-max" variant="secondary">
-            Friends
-          </Button>
-        </Link>
+        <Button className="w-full sm:w-max" variant="secondary" asChild>
+          <Link href="/friends">Friends</Link>
+        </Button>
         <AddExpenseDialog />
       </div>
     </div>
