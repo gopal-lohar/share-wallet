@@ -5,6 +5,7 @@ export async function getFriends(): Promise<Friend[] | null> {
   const user = await getUserData();
   if (!user) return null;
 
+  // TODO: fetch friends from db
   return [
     {
       id: "1726425716722-19057104119", //string id
@@ -27,5 +28,5 @@ export async function getFriends(): Promise<Friend[] | null> {
 export async function removeFriend(friendId: string) {
   const user = await getUserData();
   if (!user) return null;
-  // remove friend
+  // TODO: remove friend
 }
