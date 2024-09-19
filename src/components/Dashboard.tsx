@@ -31,8 +31,6 @@ export default function Dashboard({
           localStorageKeys.transactions
         );
         if (storedTransactions) {
-          console.log(transactions);
-          console.log(storedTransactions);
           setTransactions(JSON.parse(storedTransactions));
         }
       }

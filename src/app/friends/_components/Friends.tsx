@@ -40,7 +40,6 @@ export default function Friends({
       } else {
         const storedFriends = localStorage.getItem(localStorageKeys.friends);
         if (storedFriends) {
-          console.log(storedFriends);
           setFriends(JSON.parse(storedFriends));
         }
       }
