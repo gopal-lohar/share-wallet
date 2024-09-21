@@ -1,20 +1,23 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Transaction } from "@/types/types";
+import { Friend, Transaction } from "@/types/types";
 import Transactions from "@/components/Transactions";
 import { UserBalance } from "@/components/Balance";
 import TransactionsContextProvider from "@/context/TransactionsContextProvider";
-import AddExpenseDialog from "./AddExpenseDialog";
+import AddExpenseDialog from "@/components/AddExpenseDialog";
 import Link from "next/link";
 import { useContext, useEffect, useRef, useState } from "react";
 import UserContext from "@/context/UserContext";
 import { localStorageKeys } from "@/lib/local-storage-keys";
+import FriendsDialog from "@/app/_components/FriendsDialog";
 
 export default function Dashboard({
   transactionsProp,
+  friendsProps,
 }: {
   transactionsProp: Transaction[] | null;
+  friendsProps: Friend[] | null;
 }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
@@ -52,7 +55,7 @@ export default function Dashboard({
           transactions={transactions}
           setTransactions={setTransactions}
         >
-          <DashboardHeader />
+          <DashboardHeader friendsProps={friendsProps} />
           <UserBalance />
           <Transactions />
         </TransactionsContextProvider>
@@ -61,16 +64,14 @@ export default function Dashboard({
   );
 }
 
-function DashboardHeader() {
+function DashboardHeader({ friendsProps }: { friendsProps: Friend[] | null }) {
   return (
     <div className="flex flex-col flex-wrap gap-4 sm:flex-row sm:gap-10">
       <h2 className="hidden text-2xl font-medium text-muted-foreground sm:inline-block">
         Dashboard
       </h2>
       <div className="ml-auto flex w-full gap-2 sm:w-max">
-        <Button className="w-full sm:w-max" variant="secondary" asChild>
-          <Link href="/friends">Friends</Link>
-        </Button>
+        <FriendsDialog friendsProps={friendsProps} />
         <AddExpenseDialog />
       </div>
     </div>

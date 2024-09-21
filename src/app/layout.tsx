@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/app/globals.css";
 import { Noto_Sans as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getServerSession } from "next-auth";
-import SessionProvider from "./components/SessionProvider";
 import UserContextProvider from "@/context/UserContextProvider";
-import { getUserData } from "./_actions/users";
+import { getUserData } from "@/app/_actions/users";
+import SessionProvider from "@/components/SessionProvider";
 import Navbar from "@/components/Navbar";
 
 const fontSans = FontSans({

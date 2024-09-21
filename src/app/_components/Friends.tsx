@@ -51,7 +51,7 @@ export default function Friends({
   }, [friends, friendsProps, user]);
 
   return (
-    <div className="mx-auto w-full max-w-screen-md px-2">
+    <div className="mx-auto w-full">
       <div className="flex flex-row flex-wrap gap-4 py-6 sm:gap-10">
         <div className="flex items-center gap-2">
           <Button
@@ -74,7 +74,7 @@ export default function Friends({
         </div>
         <AddFriend server={user ? true : false} setFriends={setFriends} />
       </div>
-      <div className="mx-auto flex max-w-screen-md flex-col gap-2">
+      <div className="mx-auto flex flex-col gap-2">
         {friends.map((friend) => (
           <div
             key={friend.id}

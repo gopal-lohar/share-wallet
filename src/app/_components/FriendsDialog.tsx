@@ -7,30 +7,29 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import AddExpenseForm from "@/components/AddExpenseForm";
-import { useState } from "react";
+import Friends from "@/app/_components/Friends";
+import { Friend } from "@/types/types";
 
-export default function AddExpenseDialog() {
-  const [dialogOpen, setDialogOpen] = useState(false);
+export default function FriendsDialog({
+  friendsProps,
+}: {
+  friendsProps: Friend[] | null;
+}) {
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+    <Dialog>
       <DialogTrigger asChild>
         <Button className="w-full sm:w-max" variant="secondary">
-          Add Expense
+          Friends
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Expense</DialogTitle>
+          <DialogTitle>your Friends</DialogTitle>
           <DialogDescription>
             Create a transaction with you friends
           </DialogDescription>
         </DialogHeader>
-        <AddExpenseForm
-          closeDialogue={() => {
-            setDialogOpen(false);
-          }}
-        />
+        <Friends friendsProps={friendsProps} />
       </DialogContent>
     </Dialog>
   );

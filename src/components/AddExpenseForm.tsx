@@ -1,14 +1,13 @@
-import { z, ZodFormattedError } from "zod";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "@/components/ui/select";
 import { Check, PlusIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Cross1Icon } from "@radix-ui/react-icons";
@@ -36,7 +35,7 @@ import {
 } from "react";
 import { Friend } from "@/types/types";
 import { generateTransactions } from "@/lib/generateTransactions";
-import ProfilePic from "./ProfilePic";
+import ProfilePic from "@/components/ProfilePic";
 import TransactionsContext from "@/context/TransactionsContext";
 import { localStorageKeys } from "@/lib/local-storage-keys";
 import UserContext from "@/context/UserContext";

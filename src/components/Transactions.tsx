@@ -3,7 +3,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import useWidth from "@/hooks/useWidth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TransactionsContext from "@/context/TransactionsContext";
-import ProfilePic from "./ProfilePic";
+import ProfilePic from "@/components/ProfilePic";
 import { Transaction } from "@/types/types";
 import {
   Dialog,
@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
 import UserContext from "@/context/UserContext";
 import { cn } from "@/lib/utils";

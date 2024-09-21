@@ -1,5 +1,5 @@
 import { Friend } from "@/types/types";
-import { getUserData } from "./users";
+import { getUserData } from "@/app/_actions/users";
 
 export async function getFriends(): Promise<Friend[] | null> {
   const user = await getUserData();
