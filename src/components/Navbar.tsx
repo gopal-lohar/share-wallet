@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useTransition } from "react";
+import { useContext, useState, useTransition } from "react";
 
 import ShareWalletIcon from "@/components/ShareWalletIcon";
 import { ModeToggle } from "@/components/ModeToggle";
@@ -92,7 +92,7 @@ function ProfilePicButton({ user }: { user: UserDetails }) {
 
 function LoginButton() {
   const router = useRouter();
-  const [singingIn, startSigningIn] = useTransition();
+  const [isRedirectingToGoogle, setIsRedirectingToGoogle] = useState(false);
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -115,29 +115,30 @@ function LoginButton() {
           variant="secondary"
           className={cn(
             "relative mx-auto w-max pl-2",
-            singingIn ? "disabled:opacity-100" : ""
+            isRedirectingToGoogle ? "disabled:opacity-100" : ""
           )}
-          disabled={singingIn}
+          disabled={isRedirectingToGoogle}
           onClick={() => {
-            startSigningIn(async () => {
+            setIsRedirectingToGoogle(true);
+            (async () => {
               try {
                 await signIn("google", { redirect: false });
               } catch (error) {
                 router.push("/");
               }
-            });
+            })();
           }}
         >
           <span
             className={cn(
               "flex items-center gap-1",
-              singingIn ? "opacity-0" : ""
+              isRedirectingToGoogle ? "opacity-0" : ""
             )}
           >
             <GoogleIcon />
             <span>Continue with Google</span>
           </span>
-          {singingIn ? (
+          {isRedirectingToGoogle ? (
             <div className="absolute size-7 animate-spin rounded-full border-4 border-background border-t-primary"></div>
           ) : (
             ""
