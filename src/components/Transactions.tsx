@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import useWidth from "@/hooks/useWidth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -17,6 +17,7 @@ import {
 import { Button } from "./ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
 import UserContext from "@/context/UserContext";
+import { cn } from "@/lib/utils";
 
 export default function Transactions() {
   const windowWidth = useWidth();
@@ -139,7 +140,8 @@ function TransactionListItem({
             </div>
             <div>
               <div className="text-sm text-muted-foreground">Description</div>
-              <div>{transaction.description}</div>
+              {/* width calculated based on width of <DialogContent> */}
+              <DescriptionText>{transaction.description}</DescriptionText>
             </div>
             <div>
               <div className="text-sm text-muted-foreground">Created By</div>
@@ -166,5 +168,46 @@ function TransactionListItem({
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function DescriptionText({ children }: { children: string }) {
+  const [showLess, setShowLess] = useState(true);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const descriptionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (descriptionRef.current) {
+      setIsOverflowing(
+        descriptionRef.current.scrollHeight >
+          descriptionRef.current.clientHeight
+      );
+    }
+  }, []);
+
+  return (
+    <div
+      className={cn(
+        "relative w-[calc(100vw-2rem-3rem-2px)] max-w-[calc(32rem-3rem-2px)] overflow-hidden break-words",
+        showLess ? "max-h-[calc(4*1.5em)]" : ""
+      )}
+      ref={descriptionRef}
+    >
+      {children}
+      {showLess && isOverflowing ? (
+        <Button
+          variant="ghost"
+          className="absolute bottom-0 right-0 h-[1.5em] rounded-none bg-background px-0 py-0"
+          onClick={() => {
+            setShowLess((prev) => !prev);
+          }}
+        >
+          <div className="absolute right-full h-[1.5em] w-[2em] bg-gradient-to-r from-transparent to-background"></div>
+          ...{showLess ? "show more" : "show less"}
+        </Button>
+      ) : (
+        ""
+      )}
+    </div>
   );
 }
