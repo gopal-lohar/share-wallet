@@ -1,15 +1,14 @@
 "use client";
 
-import { FriendInterface, TransactionInterface } from "@/types/types";
-import Transactions from "@/components/Transactions";
-import { UserBalance } from "@/components/Balance";
+import { TransactionInterface } from "@/types/types";
+import Transactions from "@/app/_components/_dashboard/Transactions";
+import { UserBalance } from "@/app/_components/_dashboard/Balance";
 import TransactionsContextProvider from "@/context/TransactionsContextProvider";
-import AddExpenseDialog from "@/components/AddExpenseDialog";
-import Link from "next/link";
+import AddExpenseDialog from "@/app/_components/_expense/AddExpenseDialog";
 import { useContext, useEffect, useRef, useState } from "react";
 import UserContext from "@/context/UserContext";
 import { localStorageKeys } from "@/lib/local-storage-keys";
-import FriendsDialog from "@/app/_components/FriendsDialog";
+import FriendsDialog from "@/app/_components/_friends/FriendsDialog";
 
 export default function Dashboard({
   transactionsProp,

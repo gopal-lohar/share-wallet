@@ -1,7 +1,6 @@
 "use server";
 
-import Dashboard from "@/components/Dashboard";
-import { getFriends } from "@/app/_actions/friends";
+import Dashboard from "@/app/_components/_dashboard/Dashboard";
 import { getTransactions } from "@/app/_actions/transactions";
 
 export default async function Home() {

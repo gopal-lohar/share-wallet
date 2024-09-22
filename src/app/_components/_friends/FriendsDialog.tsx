@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import UserContext from "@/context/UserContext";
 import { useContext } from "react";
-import FriendsLocal from "@/app/_components/FriendsLocal";
-import { Friends } from "@/app/_components/Friends";
+import FriendsLocal from "@/app/_components/_friends/FriendsLocal";
+import { Friends } from "@/app/_components/_friends/Friends";
 
 export default function FriendsDialog() {
   const user = useContext(UserContext);

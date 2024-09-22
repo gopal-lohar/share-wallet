@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState, useTransition } from "react";
+import { useContext, useState } from "react";
 
 import ShareWalletIcon from "@/components/ShareWalletIcon";
 import { ModeToggle } from "@/components/ModeToggle";

@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import AddExpenseForm from "@/components/AddExpenseForm";
+import AddExpenseForm from "@/app/_components/_expense/AddExpenseForm";
 import { useState } from "react";
 
 export default function AddExpenseDialog() {
