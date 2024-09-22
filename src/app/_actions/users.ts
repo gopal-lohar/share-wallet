@@ -3,7 +3,7 @@
 import { connectDB } from "@/lib/mongodb";
 import { getPfpColor } from "@/lib/utils";
 import User from "@/models/User";
-import { UserDetails } from "@/types/types";
+import { UserDetailsInterface } from "@/types/types";
 import { getServerSession } from "next-auth";
 
 export async function createUser(data: any) {
@@ -24,7 +24,7 @@ export async function createUser(data: any) {
   });
 }
 
-export async function getUserData(): Promise<UserDetails | null> {
+export async function getUserData(): Promise<UserDetailsInterface | null> {
   await connectDB();
   const session = await getServerSession();
   const email = session?.user?.email;

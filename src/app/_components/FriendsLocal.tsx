@@ -15,7 +15,7 @@ import ProfilePic from "@/components/ProfilePic";
 import { getPfpColor } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { Friend } from "@/types/types";
+import { FriendInterface } from "@/types/types";
 import {
   Dialog,
   DialogContent,
@@ -39,7 +39,7 @@ import {
 
 export default function FriendsLocal() {
   const isFirstLoad = useRef(true);
-  const [friends, setFriends] = useState<Friend[]>([]);
+  const [friends, setFriends] = useState<FriendInterface[]>([]);
   const user = useContext(UserContext);
 
   useEffect(() => {
@@ -90,8 +90,8 @@ function RemoveFirendButton({
   setFriends,
 }: {
   server: boolean;
-  friend: Friend;
-  setFriends: React.Dispatch<React.SetStateAction<Friend[]>>;
+  friend: FriendInterface;
+  setFriends: React.Dispatch<React.SetStateAction<FriendInterface[]>>;
 }) {
   return (
     <AlertDialog>
@@ -133,7 +133,7 @@ export function AddFriend({
   setFriends,
 }: {
   server: boolean;
-  setFriends: React.Dispatch<React.SetStateAction<Friend[]>>;
+  setFriends: React.Dispatch<React.SetStateAction<FriendInterface[]>>;
 }) {
   const [name, setName] = useState("");
   const [pfpHue, setPfpHue] = useState(60);

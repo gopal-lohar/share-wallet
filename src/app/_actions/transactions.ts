@@ -1,7 +1,7 @@
 "use server";
 
 import { connectDB } from "@/lib/mongodb";
-import { Transaction as TransactionType } from "@/types/types";
+import { TransactionInterface as TransactionType } from "@/types/types";
 import { getUserData } from "@/app/_actions/users";
 import { expenseSchema, ExpenseType } from "@/schema/expenseSchema";
 import { generateTransactions } from "@/lib/generateTransactions";

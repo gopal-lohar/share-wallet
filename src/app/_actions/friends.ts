@@ -1,7 +1,7 @@
-import { Friend } from "@/types/types";
+import { FriendInterface } from "@/types/types";
 import { getUserData } from "@/app/_actions/users";
 
-export async function getFriends(): Promise<Friend[] | null> {
+export async function getFriends(): Promise<FriendInterface[] | null> {
   const user = await getUserData();
   if (!user) return null;
 

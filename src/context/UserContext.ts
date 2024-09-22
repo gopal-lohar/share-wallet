@@ -2,8 +2,8 @@
 
 import { createContext } from "react";
 
-import { UserDetails } from "@/types/types";
+import { UserDetailsInterface } from "@/types/types";
 
-const UserContext = createContext<UserDetails | null>(null);
+const UserContext = createContext<UserDetailsInterface | null>(null);
 
 export default UserContext;

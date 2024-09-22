@@ -33,7 +33,7 @@ import {
   useState,
   useTransition,
 } from "react";
-import { Friend } from "@/types/types";
+import { FriendInterface } from "@/types/types";
 import { generateTransactions } from "@/lib/generateTransactions";
 import ProfilePic from "@/components/ProfilePic";
 import TransactionsContext from "@/context/TransactionsContext";
@@ -102,7 +102,7 @@ export default function AddExpenseForm({
         <Label>With You and</Label>
         <AddExpenseWith
           expenseWith={expense.expenseWith}
-          setExpenseWith={(friends: Friend[]) => {
+          setExpenseWith={(friends: FriendInterface[]) => {
             setExpense((prevExpense) => ({
               ...prevExpense,
               expenseWith: friends,
@@ -234,12 +234,12 @@ function AddExpenseWith({
   expenseWith,
   setExpenseWith,
 }: {
-  expenseWith: Friend[];
-  setExpenseWith: (friends: Friend[]) => void;
+  expenseWith: FriendInterface[];
+  setExpenseWith: (friends: FriendInterface[]) => void;
 }) {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [optionsResponse, setOptionsResponse] = useState<Friend[]>([]);
+  const [optionsResponse, setOptionsResponse] = useState<FriendInterface[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const user = useContext(UserContext);
@@ -249,7 +249,7 @@ function AddExpenseWith({
       if (!user) {
         let localFriends = localStorage.getItem(localStorageKeys.friends);
         const searchedFriends = localFriends ? JSON.parse(localFriends) : [];
-        return (searchedFriends || []) as Friend[];
+        return (searchedFriends || []) as FriendInterface[];
       } else {
         let response;
         try {
@@ -334,7 +334,7 @@ function AddExpenseWith({
                 {error && "Error loading friends."}
               </CommandEmpty>
               <CommandGroup>
-                {optionsResponse.map((friend: Friend) => {
+                {optionsResponse.map((friend: FriendInterface) => {
                   const isSelected = expenseWith.some(
                     (friendInExpense) => friendInExpense.id === friend.id
                   );

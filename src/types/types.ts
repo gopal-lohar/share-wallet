@@ -1,48 +1,32 @@
-export interface UserDetails {
+export interface UserDetailsInterface {
   id: string;
   name: string;
   email: string;
   pfpColour: string;
 }
 
-// export interface Transaction {
-//   _id: string;
-//   createdBy: string;
-//   borrower: Friend;
-//   lender: Friend;
-//   amount: number;
-//   description: string;
-//   createdAt: string; // remove this and use createdAt and EditedAt instead
-// }
-
-// export interface Friend {
-//   id: string;
-//   name: string;
-//   pfpColor: string;
-// }
-
-export interface Transaction {
-  _id: string;
-  createdBy: Friend;
-  borrower: Friend;
-  lender: Friend;
-  amount: number;
-  description: string;
-  createdAt: string;
-  editedAt: string;
-}
-
-export interface Friend {
+export interface FriendInterface {
   id: string;
   name: string;
   pfpColor: string;
 }
 
-export type Expense = {
+export interface ExpenseInterface {
   _id: string;
-  expenseWith: Friend[];
+  expenseWith: FriendInterface[];
   amount: number;
   description: string;
-  paidBy: Friend;
+  paidBy: FriendInterface;
   expenseTime: Date;
-};
+}
+
+export interface TransactionInterface {
+  _id: string;
+  createdBy: FriendInterface;
+  borrower: FriendInterface;
+  lender: FriendInterface;
+  amount: number;
+  description: string;
+  createdAt: string;
+  editedAt: string;
+}

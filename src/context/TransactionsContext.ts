@@ -2,16 +2,16 @@
 
 import { createContext } from "react";
 
-import { Transaction } from "@/types/types";
+import { TransactionInterface } from "@/types/types";
 
 const TransactionsContext = createContext<{
-  transactions: Transaction[];
+  transactions: TransactionInterface[];
   deleteTransaction: (id: string) => void;
-  addTransaction: (transaction: Transaction) => void;
+  addTransaction: (transaction: TransactionInterface) => void;
 }>({
   transactions: [],
   deleteTransaction: (id: string) => {},
-  addTransaction: (transaction: Transaction) => {},
+  addTransaction: (transaction: TransactionInterface) => {},
 });
 
 export default TransactionsContext;

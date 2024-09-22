@@ -1,8 +1,11 @@
-import { Friend, Transaction } from "@/types/types";
+import { FriendInterface, TransactionInterface } from "@/types/types";
 import { ExpenseType } from "@/schema/expenseSchema";
 
-export function generateTransactions(createdBy: Friend, expense: ExpenseType) {
-  const transactions: Transaction[] = [];
+export function generateTransactions(
+  createdBy: FriendInterface,
+  expense: ExpenseType
+) {
+  const transactions: TransactionInterface[] = [];
 
   const lender = expense.paidBy[0];
 

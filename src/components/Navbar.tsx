@@ -6,7 +6,7 @@ import ShareWalletIcon from "@/components/ShareWalletIcon";
 import { ModeToggle } from "@/components/ModeToggle";
 import { Button } from "@/components/ui/button";
 import UserContext from "@/context/UserContext";
-import { UserDetails } from "@/types/types";
+import { UserDetailsInterface } from "@/types/types";
 import ProfilePic from "@/components/ProfilePic";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -49,7 +49,7 @@ export default function Navbar() {
   );
 }
 
-function ProfilePicButton({ user }: { user: UserDetails }) {
+function ProfilePicButton({ user }: { user: UserDetailsInterface }) {
   return (
     <div className="ml-auto flex items-center gap-4 pr-4">
       <DropdownMenu>

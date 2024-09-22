@@ -1,7 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Friend, Transaction } from "@/types/types";
+import { FriendInterface, TransactionInterface } from "@/types/types";
 import Transactions from "@/components/Transactions";
 import { UserBalance } from "@/components/Balance";
 import TransactionsContextProvider from "@/context/TransactionsContextProvider";
@@ -15,9 +14,9 @@ import FriendsDialog from "@/app/_components/FriendsDialog";
 export default function Dashboard({
   transactionsProp,
 }: {
-  transactionsProp: Transaction[] | null;
+  transactionsProp: TransactionInterface[] | null;
 }) {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<TransactionInterface[]>([]);
 
   const isFirstLoad = useRef(true);
   const user = useContext(UserContext);

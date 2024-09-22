@@ -4,7 +4,7 @@ import useWidth from "@/hooks/useWidth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TransactionsContext from "@/context/TransactionsContext";
 import ProfilePic from "@/components/ProfilePic";
-import { Transaction } from "@/types/types";
+import { TransactionInterface } from "@/types/types";
 import {
   Dialog,
   DialogContent,
@@ -104,7 +104,7 @@ function TransactionListItem({
   transaction,
   transactionType,
 }: {
-  transaction: Transaction;
+  transaction: TransactionInterface;
   transactionType: "borrowed" | "lended";
 }) {
   const { deleteTransaction } = useContext(TransactionsContext);
