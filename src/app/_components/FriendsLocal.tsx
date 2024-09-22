@@ -1,18 +1,12 @@
 "use client";
 
 import * as React from "react";
+import { useContext, useEffect, useRef } from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
-
+import { localStorageKeys } from "@/lib/local-storage-keys";
+import UserContext from "@/context/UserContext";
+import { removeFriend } from "@/app/_actions/friends";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PlusIcon } from "lucide-react";
@@ -22,6 +16,117 @@ import { getPfpColor } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Friend } from "@/types/types";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
+export default function FriendsLocal() {
+  const isFirstLoad = useRef(true);
+  const [friends, setFriends] = useState<Friend[]>([]);
+  const user = useContext(UserContext);
+
+  useEffect(() => {
+    if (isFirstLoad.current) {
+      isFirstLoad.current = false;
+      if (!user) {
+        const storedFriends = localStorage.getItem(localStorageKeys.friends);
+        if (storedFriends) {
+          setFriends(JSON.parse(storedFriends));
+        }
+      }
+    } else {
+      if (!user) {
+        localStorage.setItem(localStorageKeys.friends, JSON.stringify(friends));
+      }
+    }
+  }, [friends, user]);
+
+  return (
+    <div className="mx-auto w-full">
+      <div className="flex flex-row flex-wrap items-center gap-4 pb-4 sm:gap-10">
+        <h2 className="text-2xl font-medium text-muted-foreground">Friends</h2>
+        <AddFriend server={user ? true : false} setFriends={setFriends} />
+      </div>
+      <div className="mx-auto flex flex-col gap-2">
+        {friends.map((friend) => (
+          <div
+            key={friend.id}
+            className="flex items-center gap-2 rounded-lg border p-2"
+          >
+            <ProfilePic letter={friend.name[0]} color={friend.pfpColor} />
+            <p className="font-semibold text-muted-foreground">{friend.name}</p>
+            <RemoveFirendButton
+              server={user ? true : false}
+              setFriends={setFriends}
+              friend={friend}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function RemoveFirendButton({
+  server,
+  friend,
+  setFriends,
+}: {
+  server: boolean;
+  friend: Friend;
+  setFriends: React.Dispatch<React.SetStateAction<Friend[]>>;
+}) {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive" className="ml-auto">
+          Remove
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete the
+            friend from your list.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={() => {
+              if (server) {
+                removeFriend(friend.id);
+              }
+              setFriends((prev: any) =>
+                prev.filter((f: any) => f.id !== friend.id)
+              );
+            }}
+          >
+            Continue
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
 
 export function AddFriend({
   server,

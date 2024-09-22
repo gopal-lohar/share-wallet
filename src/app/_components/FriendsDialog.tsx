@@ -7,14 +7,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import Friends from "@/app/_components/Friends";
-import { Friend } from "@/types/types";
+import UserContext from "@/context/UserContext";
+import { useContext } from "react";
+import FriendsLocal from "@/app/_components/FriendsLocal";
+import { Friends } from "@/app/_components/Friends";
 
-export default function FriendsDialog({
-  friendsProps,
-}: {
-  friendsProps: Friend[] | null;
-}) {
+export default function FriendsDialog() {
+  const user = useContext(UserContext);
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -24,12 +23,12 @@ export default function FriendsDialog({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>your Friends</DialogTitle>
+          <DialogTitle>Friends</DialogTitle>
           <DialogDescription>
             Create a transaction with you friends
           </DialogDescription>
         </DialogHeader>
-        <Friends friendsProps={friendsProps} />
+        {user ? <Friends /> : <FriendsLocal />}
       </DialogContent>
     </Dialog>
   );
