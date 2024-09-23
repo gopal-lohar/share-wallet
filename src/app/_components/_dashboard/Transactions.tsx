@@ -188,7 +188,7 @@ function DescriptionText({ children }: { children: string }) {
   return (
     <div
       className={cn(
-        "relative w-[calc(100vw-2rem-3rem-2px)] max-w-[calc(32rem-3rem-2px)] overflow-hidden break-words",
+        "relative max-w-[min(calc(32rem-3rem-2px),calc(100vw-2rem-3rem-2px))] overflow-hidden break-words",
         showLess ? "max-h-[calc(4*1.5em)]" : ""
       )}
       ref={descriptionRef}
@@ -197,12 +197,12 @@ function DescriptionText({ children }: { children: string }) {
       {showLess && isOverflowing ? (
         <Button
           variant="ghost"
-          className="absolute bottom-0 right-0 h-[1.5em] rounded-none bg-background px-0 py-0"
+          className="group absolute bottom-0 right-0 h-[1.5em] rounded-none bg-background px-2 py-0 transition-none"
           onClick={() => {
             setShowLess((prev) => !prev);
           }}
         >
-          <div className="absolute right-full h-[1.5em] w-[2em] bg-gradient-to-r from-transparent to-background"></div>
+          <div className="absolute right-full h-[1.5em] w-[2em] bg-gradient-to-r from-transparent to-background group-hover:to-accent"></div>
           ...{showLess ? "show more" : "show less"}
         </Button>
       ) : (

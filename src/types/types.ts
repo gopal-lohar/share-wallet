@@ -11,6 +11,17 @@ export interface FriendInterface {
   pfpColor: string;
 }
 
+export enum FriendshipStatusEnum {
+  None = "none",
+  RequestSent = "requestSent",
+  RequestReceived = "requestReceived",
+  Friends = "friends",
+}
+
+export interface UserInterfaceForFriendSearch extends FriendInterface {
+  friendShipStatus: FriendshipStatusEnum;
+}
+
 export interface ExpenseInterface {
   _id: string;
   expenseWith: FriendInterface[];

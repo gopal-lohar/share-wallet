@@ -5,7 +5,6 @@ import { useContext, useEffect, useRef } from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { localStorageKeys } from "@/lib/local-storage-keys";
 import UserContext from "@/context/UserContext";
-import { removeFriend } from "@/app/_actions/friends";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -62,7 +61,7 @@ export default function FriendsLocal() {
     <div className="mx-auto w-full">
       <div className="flex flex-row flex-wrap items-center gap-4 pb-4 sm:gap-10">
         <h2 className="text-2xl font-medium text-muted-foreground">Friends</h2>
-        <AddFriend server={user ? true : false} setFriends={setFriends} />
+        <AddFriend setFriends={setFriends} />
       </div>
       <div className="mx-auto flex flex-col gap-2">
         {friends.map((friend) => (
@@ -72,11 +71,7 @@ export default function FriendsLocal() {
           >
             <ProfilePic letter={friend.name[0]} color={friend.pfpColor} />
             <p className="font-semibold text-muted-foreground">{friend.name}</p>
-            <RemoveFirendButton
-              server={user ? true : false}
-              setFriends={setFriends}
-              friend={friend}
-            />
+            <RemoveFirendButton setFriends={setFriends} friend={friend} />
           </div>
         ))}
       </div>
@@ -85,11 +80,9 @@ export default function FriendsLocal() {
 }
 
 function RemoveFirendButton({
-  server,
   friend,
   setFriends,
 }: {
-  server: boolean;
   friend: FriendInterface;
   setFriends: React.Dispatch<React.SetStateAction<FriendInterface[]>>;
 }) {
@@ -112,9 +105,6 @@ function RemoveFirendButton({
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
-              if (server) {
-                removeFriend(friend.id);
-              }
               setFriends((prev: any) =>
                 prev.filter((f: any) => f.id !== friend.id)
               );
@@ -129,10 +119,8 @@ function RemoveFirendButton({
 }
 
 export function AddFriend({
-  server,
   setFriends,
 }: {
-  server: boolean;
   setFriends: React.Dispatch<React.SetStateAction<FriendInterface[]>>;
 }) {
   const [name, setName] = useState("");
