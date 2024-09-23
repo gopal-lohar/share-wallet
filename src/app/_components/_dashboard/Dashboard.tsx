@@ -1,22 +1,21 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Transaction } from "@/types/types";
-import Transactions from "@/components/Transactions";
-import { UserBalance } from "@/components/Balance";
+import { TransactionInterface } from "@/types/types";
+import Transactions from "@/app/_components/_dashboard/Transactions";
+import { UserBalance } from "@/app/_components/_dashboard/Balance";
 import TransactionsContextProvider from "@/context/TransactionsContextProvider";
-import AddExpenseDialog from "./AddExpenseDialog";
-import Link from "next/link";
+import AddExpenseDialog from "@/app/_components/_expense/AddExpenseDialog";
 import { useContext, useEffect, useRef, useState } from "react";
 import UserContext from "@/context/UserContext";
 import { localStorageKeys } from "@/lib/local-storage-keys";
+import FriendsDialog from "@/app/_components/_friends/FriendsDialog";
 
 export default function Dashboard({
   transactionsProp,
 }: {
-  transactionsProp: Transaction[] | null;
+  transactionsProp: TransactionInterface[] | null;
 }) {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<TransactionInterface[]>([]);
 
   const isFirstLoad = useRef(true);
   const user = useContext(UserContext);
@@ -31,8 +30,6 @@ export default function Dashboard({
           localStorageKeys.transactions
         );
         if (storedTransactions) {
-          console.log(transactions);
-          console.log(storedTransactions);
           setTransactions(JSON.parse(storedTransactions));
         }
       }
@@ -49,7 +46,7 @@ export default function Dashboard({
   return (
     // height = 100vh - nav height
     <div className="h-[calc(100vh-4rem)] w-full overflow-auto">
-      <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 p-2 sm:py-4">
+      <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 p-2 py-4">
         <TransactionsContextProvider
           transactions={transactions}
           setTransactions={setTransactions}
@@ -70,11 +67,7 @@ function DashboardHeader() {
         Dashboard
       </h2>
       <div className="ml-auto flex w-full gap-2 sm:w-max">
-        <Link href="/friends">
-          <Button className="w-full sm:w-max" variant="secondary">
-            Friends
-          </Button>
-        </Link>
+        <FriendsDialog />
         <AddExpenseDialog />
       </div>
     </div>

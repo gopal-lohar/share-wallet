@@ -1,43 +1,28 @@
 "use server";
 
 import { connectDB } from "@/lib/mongodb";
-import Transaction from "@/models/Transaction";
-import User from "@/models/User";
-import { Transaction as TransactionType } from "@/types/types";
-import { getServerSession } from "next-auth";
-import { z, ZodError } from "zod";
-import { getUserData } from "./users";
+import { TransactionInterface as TransactionType } from "@/types/types";
+import { getUserData } from "@/app/_actions/users";
+import { expenseSchema, ExpenseType } from "@/schema/expenseSchema";
+import { generateTransactions } from "@/lib/generateTransactions";
 
-const transactionSchema = z.object({
-  friend: z.object({
-    id: z.string(),
-    name: z.string(),
-    pfpColor: z.string(),
-  }),
-  amount: z.number().gt(0),
-  owesMoney: z.boolean(),
-  description: z.string(),
-});
+export async function createTransaction(expense: ExpenseType) {
+  const user = await getUserData();
+  if (!user) return null;
 
-export async function createTransaction(formData: FormData) {
-  const data = transactionSchema.safeParse(formData);
-
-  if (!data.success) {
-    throw new ZodError(data.error.issues);
+  const result = expenseSchema.safeParse(expense);
+  if (!result.success) {
+    throw new Error("Invalid expense data");
   }
+
+  const transactions = generateTransactions(
+    { id: user.id, name: user.name, pfpColor: user.pfpColour },
+    expense
+  );
+
   await connectDB();
-  const session = await getServerSession();
-  const { friend, amount, owesMoney, description } = data.data;
-  const currentUserEmail = session?.user?.email;
-
-  const createdBy = await User.findOne({ email: currentUserEmail });
-
-  await Transaction.create({
-    createdBy,
-    amount,
-    friend,
-    owesMoney,
-    description,
+  transactions.forEach((transaction) => {
+    // TODO: save these transactions to db
   });
 }
 
@@ -46,6 +31,8 @@ export async function getTransactions(): Promise<TransactionType[] | null> {
   if (!user) return null;
 
   await connectDB();
+
+  // TODO: fetch transactions from db
   return [
     {
       _id: "1726498490720-216599266",

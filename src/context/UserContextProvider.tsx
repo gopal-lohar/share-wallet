@@ -1,6 +1,6 @@
 "use client";
 
-import { UserDetails } from "@/types/types";
+import { UserDetailsInterface } from "@/types/types";
 import UserContext from "@/context/UserContext";
 
 export default function UserContextProvider({
@@ -8,7 +8,7 @@ export default function UserContextProvider({
   user,
 }: {
   children: React.ReactNode;
-  user: UserDetails | null;
+  user: UserDetailsInterface | null;
 }) {
   return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 }

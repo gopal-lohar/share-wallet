@@ -1,9 +1,20 @@
 "use client";
 
 import * as React from "react";
+import { useContext, useEffect, useRef } from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
-
+import { localStorageKeys } from "@/lib/local-storage-keys";
+import UserContext from "@/context/UserContext";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { PlusIcon } from "lucide-react";
+import { useState } from "react";
+import ProfilePic from "@/components/ProfilePic";
+import { getPfpColor } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { DialogClose } from "@radix-ui/react-dialog";
+import { FriendInterface } from "@/types/types";
 import {
   Dialog,
   DialogContent,
@@ -13,22 +24,104 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { PlusIcon } from "lucide-react";
-import { useState } from "react";
-import ProfilePic from "@/components/ProfilePic";
-import { getPfpColor } from "@/lib/utils";
-import { cn } from "@/lib/utils";
-import { DialogClose } from "@radix-ui/react-dialog";
-import { Friend } from "@/types/types";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
-export function AddFriend({
-  server,
+export default function FriendsLocal() {
+  const isFirstLoad = useRef(true);
+  const [friends, setFriends] = useState<FriendInterface[]>([]);
+  const user = useContext(UserContext);
+
+  useEffect(() => {
+    if (isFirstLoad.current) {
+      isFirstLoad.current = false;
+      if (!user) {
+        const storedFriends = localStorage.getItem(localStorageKeys.friends);
+        if (storedFriends) {
+          setFriends(JSON.parse(storedFriends));
+        }
+      }
+    } else {
+      if (!user) {
+        localStorage.setItem(localStorageKeys.friends, JSON.stringify(friends));
+      }
+    }
+  }, [friends, user]);
+
+  return (
+    <div className="mx-auto w-full">
+      <div className="flex flex-row flex-wrap items-center gap-4 pb-4 sm:gap-10">
+        <h2 className="text-2xl font-medium text-muted-foreground">Friends</h2>
+        <AddFriend setFriends={setFriends} />
+      </div>
+      <div className="mx-auto flex flex-col gap-2">
+        {friends.map((friend) => (
+          <div
+            key={friend.id}
+            className="flex items-center gap-2 rounded-lg border p-2"
+          >
+            <ProfilePic letter={friend.name[0]} color={friend.pfpColor} />
+            <p className="font-semibold text-muted-foreground">{friend.name}</p>
+            <RemoveFirendButton setFriends={setFriends} friend={friend} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function RemoveFirendButton({
+  friend,
   setFriends,
 }: {
-  server: boolean;
-  setFriends: React.Dispatch<React.SetStateAction<Friend[]>>;
+  friend: FriendInterface;
+  setFriends: React.Dispatch<React.SetStateAction<FriendInterface[]>>;
+}) {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive" className="ml-auto">
+          Remove
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete the
+            friend from your list.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={() => {
+              setFriends((prev: any) =>
+                prev.filter((f: any) => f.id !== friend.id)
+              );
+            }}
+          >
+            Continue
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
+export function AddFriend({
+  setFriends,
+}: {
+  setFriends: React.Dispatch<React.SetStateAction<FriendInterface[]>>;
 }) {
   const [name, setName] = useState("");
   const [pfpHue, setPfpHue] = useState(60);

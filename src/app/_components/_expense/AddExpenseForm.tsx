@@ -1,14 +1,13 @@
-import { z, ZodFormattedError } from "zod";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "@/components/ui/select";
 import { Check, PlusIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Cross1Icon } from "@radix-ui/react-icons";
@@ -26,44 +25,42 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn, getPfpColor } from "@/lib/utils";
-import { useContext, useEffect, useMemo, useState, useTransition } from "react";
-import { Friend } from "@/types/types";
-import { createTransactions } from "./create-transactions";
-import ProfilePic from "./ProfilePic";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
+import { FriendInterface } from "@/types/types";
+import { generateTransactions } from "@/lib/generateTransactions";
+import ProfilePic from "@/components/ProfilePic";
 import TransactionsContext from "@/context/TransactionsContext";
 import { localStorageKeys } from "@/lib/local-storage-keys";
+import UserContext from "@/context/UserContext";
+import { getFriends } from "@/app/_actions/friends";
+import { createTransaction } from "@/app/_actions/transactions";
+import {
+  expenseSchema,
+  ExpenseType,
+  ExpenseErrorsType,
+} from "@/schema/expenseSchema";
 
-const friendSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  pfpColor: z.string(),
-});
-
-export const expenseSchema = z.object({
-  expenseWith: z
-    .array(friendSchema)
-    .min(2, "There should be at least one friend"),
-  paidBy: z.array(friendSchema).min(1, "Paid by can't be empty"), //it's safe to use array here because we are using already made objects which may have things unique to them
-  amount: z.number().positive("Amount should be Greater than 0"),
-  description: z.string(),
-  expenseTime: z.date(),
-});
-
-export type Expense = z.infer<typeof expenseSchema>;
-type ExpenseErrors = ZodFormattedError<Expense>;
 export default function AddExpenseForm({
   closeDialogue,
 }: {
   closeDialogue: () => void;
 }) {
-  const [expense, setExpense] = useState<Expense>({
+  const [expense, setExpense] = useState<ExpenseType>({
     expenseWith: [{ id: "me", name: "Me", pfpColor: getPfpColor("Me") }],
     amount: 0,
     description: "",
     paidBy: [],
     expenseTime: new Date(),
   });
-  const [errors, setErrors] = useState<ExpenseErrors>({ _errors: [] });
+  const [errors, setErrors] = useState<ExpenseErrorsType>({ _errors: [] });
+  const user = useContext(UserContext);
+
   const [isSubmitting, startSubmitting] = useTransition();
   const { addTransaction } = useContext(TransactionsContext);
 
@@ -74,19 +71,26 @@ export default function AddExpenseForm({
         const result = expenseSchema.safeParse(expense);
         if (result.success) {
           setErrors({ _errors: [] });
-          const transactions = createTransactions(
-            { id: "me", name: "Me", pfpColor: getPfpColor("Me") },
-            expense
-          );
-          transactions.forEach((transaction, i) => {
-            if (
-              transaction.borrower.id === "me" ||
-              transaction.lender.id === "me"
-            ) {
-              addTransaction(transaction);
-            }
-          });
-          closeDialogue();
+          if (!user) {
+            const transactions = generateTransactions(
+              { id: "me", name: "Me", pfpColor: getPfpColor("Me") },
+              expense
+            );
+            transactions.forEach((transaction, i) => {
+              if (
+                transaction.borrower.id === "me" ||
+                transaction.lender.id === "me"
+              ) {
+                addTransaction(transaction);
+              }
+            });
+            closeDialogue();
+          } else {
+            startSubmitting(async () => {
+              await createTransaction(expense);
+              closeDialogue();
+            });
+          }
         } else {
           const formattedErrors = result.error.format();
           setErrors(formattedErrors);
@@ -97,7 +101,7 @@ export default function AddExpenseForm({
         <Label>With You and</Label>
         <AddExpenseWith
           expenseWith={expense.expenseWith}
-          setExpenseWith={(friends: Friend[]) => {
+          setExpenseWith={(friends: FriendInterface[]) => {
             setExpense((prevExpense) => ({
               ...prevExpense,
               expenseWith: friends,
@@ -205,7 +209,21 @@ export default function AddExpenseForm({
         >
           Cancel
         </Button>
-        <Button type="submit">Add Expense</Button>
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className={cn(
+            "relative",
+            isSubmitting ? "text-transparent disabled:opacity-100" : ""
+          )}
+        >
+          Add Expense
+          {isSubmitting ? (
+            <div className="absolute size-8 animate-spin rounded-full border-4 border-muted border-t-foreground"></div>
+          ) : (
+            ""
+          )}
+        </Button>
       </div>
     </form>
   );
@@ -215,20 +233,35 @@ function AddExpenseWith({
   expenseWith,
   setExpenseWith,
 }: {
-  expenseWith: Friend[];
-  setExpenseWith: (friends: Friend[]) => void;
+  expenseWith: FriendInterface[];
+  setExpenseWith: (friends: FriendInterface[]) => void;
 }) {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [optionsResponse, setOptionsResponse] = useState<Friend[]>([]);
+  const [optionsResponse, setOptionsResponse] = useState<FriendInterface[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const user = useContext(UserContext);
 
-  const searchFriends = async (query: string) => {
-    let localFriends = localStorage.getItem(localStorageKeys.friends);
-    const searchedFriends = localFriends ? JSON.parse(localFriends) : [];
-    return searchedFriends || [];
-  };
+  const searchFriends = useCallback(
+    async (query: string) => {
+      if (!user) {
+        let localFriends = localStorage.getItem(localStorageKeys.friends);
+        const searchedFriends = localFriends ? JSON.parse(localFriends) : [];
+        return (searchedFriends || []) as FriendInterface[];
+      } else {
+        let response;
+        try {
+          response = await getFriends();
+        } catch (error) {
+          setError("Error loading friends.");
+          return [];
+        }
+        return response || [];
+      }
+    },
+    [user]
+  );
 
   useEffect(() => {
     let fetchOptionsTimeout: NodeJS.Timeout | null = null;
@@ -242,7 +275,7 @@ function AddExpenseWith({
         clearTimeout(fetchOptionsTimeout);
       }
     };
-  }, [searchQuery]);
+  }, [searchQuery, searchFriends]);
 
   return (
     <div className="flex flex-wrap gap-2">
@@ -300,7 +333,7 @@ function AddExpenseWith({
                 {error && "Error loading friends."}
               </CommandEmpty>
               <CommandGroup>
-                {optionsResponse.map((friend: Friend) => {
+                {optionsResponse.map((friend: FriendInterface) => {
                   const isSelected = expenseWith.some(
                     (friendInExpense) => friendInExpense.id === friend.id
                   );

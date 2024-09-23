@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,8 +6,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import AddExpenseForm from "./AddExpenseForm";
+} from "@/components/ui/dialog";
+import AddExpenseForm from "@/app/_components/_expense/AddExpenseForm";
 import { useState } from "react";
 
 export default function AddExpenseDialog() {

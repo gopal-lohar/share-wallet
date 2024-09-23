@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { createUser } from "../../../_actions/users";
+import { createUser } from "@/app/_actions/users";
 
 const authOptions = {
   providers: [

@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 
-import { Transaction } from "@/types/types";
+import { TransactionInterface } from "@/types/types";
 import TransactionsContext from "@/context/TransactionsContext";
 
 export default function TransactionsContextProvider({
@@ -11,8 +11,8 @@ export default function TransactionsContextProvider({
   setTransactions,
 }: {
   children: React.ReactNode;
-  transactions: Transaction[];
-  setTransactions: React.Dispatch<React.SetStateAction<Transaction[]>>;
+  transactions: TransactionInterface[];
+  setTransactions: React.Dispatch<React.SetStateAction<TransactionInterface[]>>;
 }) {
   const deleteTransaction = useCallback(
     (id: string) => {
@@ -23,7 +23,7 @@ export default function TransactionsContextProvider({
     [setTransactions]
   );
   const addTransaction = useCallback(
-    (transaction: Transaction) => {
+    (transaction: TransactionInterface) => {
       setTransactions((prevTransactions) => {
         return [transaction, ...prevTransactions];
       });
