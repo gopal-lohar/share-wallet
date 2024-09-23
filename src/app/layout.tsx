@@ -8,6 +8,7 @@ import UserContextProvider from "@/context/UserContextProvider";
 import { getUserData } from "@/app/_actions/users";
 import SessionProvider from "@/components/SessionProvider";
 import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/ui/sonner";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -46,6 +47,7 @@ export default async function RootLayout({
             </ThemeProvider>
           </UserContextProvider>
         </div>
+        <Toaster />
       </body>
     </html>
   );

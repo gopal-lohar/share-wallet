@@ -122,6 +122,7 @@ export async function sendFriendRequest(friendId: string) {
 export async function acceptFriendRequest(friendId: string) {
   const user = await getUserData();
   if (!user) return;
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   // TODO: accept friend request
 }
 
