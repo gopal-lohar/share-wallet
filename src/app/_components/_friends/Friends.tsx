@@ -1,3 +1,4 @@
+import { useEffect, useState, useTransition } from "react";
 import ProfilePic from "@/components/ProfilePic";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -5,89 +6,153 @@ import {
   FriendshipStatusEnum,
   UserInterfaceForFriendSearch,
 } from "@/types/types";
-import { useEffect, useState, useTransition } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  getFriends,
+  getRequestsReceived,
+  getUsersForFriendSearch,
+  sendFriendRequest,
+  cancelFriendRequest,
+  acceptFriendRequest,
+  rejectFriendRequest,
+  removeFriend,
+} from "@/app/_actions/friends";
+import { Input } from "@/components/ui/input";
 
 export function Friends() {
-  const users: UserInterfaceForFriendSearch[] = [
-    {
-      id: "id_1",
-      name: "Alice",
-      pfpColor: "hsl(246, 35%, 45%)",
-      friendShipStatus: "none",
-    },
-    {
-      id: "id_4",
-      name: "David",
-      pfpColor: "hsl(54, 35%, 45%)",
-      friendShipStatus: "requestSent",
-    },
-    {
-      id: "id_7",
-      name: "Grace",
-      pfpColor: "hsl(279, 35%, 45%)",
-      friendShipStatus: "requestReceived",
-    },
-    {
-      id: "id_10",
-      name: "Jack",
-      pfpColor: "hsl(27, 35%, 45%)",
-      friendShipStatus: "friends",
-    },
-    {
-      id: "id_2",
-      name: "Bob",
-      pfpColor: "hsl(89, 35%, 45%)",
-      friendShipStatus: "none",
-    },
-    {
-      id: "id_3",
-      name: "Charlie",
-      pfpColor: "hsl(316, 35%, 45%)",
-      friendShipStatus: "none",
-    },
-    {
-      id: "id_5",
-      name: "Eve",
-      pfpColor: "hsl(173, 35%, 45%)",
-      friendShipStatus: "requestSent",
-    },
-    {
-      id: "id_6",
-      name: "Frank",
-      pfpColor: "hsl(45, 35%, 45%)",
-      friendShipStatus: "requestSent",
-    },
-    {
-      id: "id_8",
-      name: "Heidi",
-      pfpColor: "hsl(344, 35%, 45%)",
-      friendShipStatus: "requestReceived",
-    },
-    {
-      id: "id_9",
-      name: "Ivy",
-      pfpColor: "hsl(128, 35%, 45%)",
-      friendShipStatus: "requestReceived",
-    },
-    {
-      id: "id_11",
-      name: "Kevin",
-      pfpColor: "hsl(358, 35%, 45%)",
-      friendShipStatus: "friends",
-    },
-    {
-      id: "id_12",
-      name: "Lily",
-      pfpColor: "hsl(67, 35%, 45%)",
-      friendShipStatus: "friends",
-    },
-  ] as UserInterfaceForFriendSearch[];
+  const [friendSearchResults, setFriendSearchResults] = useState<
+    UserInterfaceForFriendSearch[]
+  >([]);
+  const [friends, setFriends] = useState<UserInterfaceForFriendSearch[]>([]);
+  // request
+  const [requests, setRequests] = useState<UserInterfaceForFriendSearch[]>([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [openedTab, setOpenedTab] = useState<"friends" | "requests" | "add">(
+    "friends"
+  );
+
+  useEffect(() => {
+    setLoading(true);
+    if (searchInput === "") {
+      setFriendSearchResults([]);
+      return;
+    }
+    getUsersForFriendSearch(searchInput)
+      .then((data) => {
+        setFriendSearchResults(data);
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+      });
+  }, [searchInput, openedTab]);
+
+  useEffect(() => {
+    setLoading(true);
+    try {
+      if (openedTab === "friends") {
+        getFriends().then((data) => {
+          setFriends(
+            data?.map((user) => ({
+              ...user,
+              friendShipStatus: FriendshipStatusEnum.Friends,
+            })) ?? []
+          );
+          setLoading(false);
+        });
+      } else if (openedTab === "requests") {
+        getRequestsReceived().then((data) => {
+          setRequests(data);
+          setLoading(false);
+        });
+      } else if (openedTab === "add") {
+        getUsersForFriendSearch(searchInput).then((data) => {
+          setFriendSearchResults(data);
+          setLoading(false);
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [openedTab, searchInput]);
 
   return (
     <>
-      {users.map((user) => (
-        <UserListCard user={user} key={user.id} />
-      ))}
+      <Tabs
+        defaultValue="friends"
+        className="h-full"
+        value={openedTab}
+        onValueChange={(e) => {
+          setOpenedTab(e as "friends" | "requests" | "add");
+        }}
+      >
+        <div className="flex">
+          <TabsList className="mx-auto">
+            <TabsTrigger value="friends">Friends</TabsTrigger>
+            <TabsTrigger value="requests">Requests</TabsTrigger>
+            <TabsTrigger value="add" className="p-0">
+              <div className="relative flex size-8 items-center justify-center">
+                <div className="absolute h-[1px] w-1/2 bg-foreground"></div>
+                <div className="absolute h-[1px] w-1/2 rotate-90 bg-foreground"></div>
+              </div>
+            </TabsTrigger>
+          </TabsList>
+        </div>
+        <TabsContent value="add" className="h-[calc(100%-3rem)] overflow-auto">
+          <div className="pb-4">
+            <Input
+              value={searchInput}
+              placeholder="Search"
+              className="w-full"
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+          </div>
+          {loading && (
+            <div className="flex justify-center py-10">
+              <div className="size-8 animate-spin rounded-full border-4 border-muted border-t-foreground"></div>
+            </div>
+          )}
+          <div className="flex flex-col gap-2">
+            {friendSearchResults.map((user, index) => (
+              <UserListCard user={user} key={index} />
+            ))}
+          </div>
+        </TabsContent>
+        <TabsContent value="friends">
+          {loading && (
+            <div className="flex justify-center py-10">
+              <div className="size-8 animate-spin rounded-full border-4 border-muted border-t-foreground"></div>
+            </div>
+          )}
+          <div className="flex flex-col gap-2">
+            {friends.length
+              ? friends.map((user, index) => (
+                  <UserListCard user={user} key={index} />
+                ))
+              : !loading && (
+                  <div className="py-20 text-center">No Friends Found</div>
+                )}
+          </div>
+          {}
+        </TabsContent>
+        <TabsContent value="requests">
+          {loading && (
+            <div className="flex justify-center py-10">
+              <div className="size-8 animate-spin rounded-full border-4 border-muted border-t-foreground"></div>
+            </div>
+          )}
+          <div className="flex flex-col gap-2">
+            {requests.length
+              ? requests.map((user, index) => (
+                  <UserListCard user={user} key={index} />
+                ))
+              : !loading && (
+                  <div className="py-20 text-center">No Requests Found</div>
+                )}
+          </div>
+        </TabsContent>
+      </Tabs>
     </>
   );
 }

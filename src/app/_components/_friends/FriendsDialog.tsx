@@ -21,7 +21,7 @@ export default function FriendsDialog() {
           Friends
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="h-[calc(100svh_-_1rem)] grid-rows-[auto,1fr]">
         <DialogHeader>
           <DialogTitle>Friends</DialogTitle>
           <DialogDescription>
